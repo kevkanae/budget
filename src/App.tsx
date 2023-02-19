@@ -1,52 +1,57 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/tauri";
-import "./App.css";
+import {
+  createHashHistory,
+  ReactRouter,
+  RootRoute,
+  Route,
+  RouterProvider,
+} from "@tanstack/react-router";
+import Layout from "./Layout/Layout";
+import Home from "./pages/Home/Home";
+import Income from "./pages/Income/Income";
+// import { invoke } from "@tauri-apps/api/tauri";
+
+const rootRoute = new RootRoute({
+  component: () => <Layout />,
+});
+
+const indexRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  component: () => <Home />,
+});
+
+const incomeRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/income",
+  component: () => <Income />,
+});
+
+const routeTree = rootRoute.addChildren([indexRoute, incomeRoute]);
+
+// Set up a ReactRouter instance
+const router = new ReactRouter({
+  history: createHashHistory(),
+  routeTree,
+  defaultPreload: "intent",
+});
+
+// Typesafety for the router
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
-  }
+  // async function greet() {
+  //   // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+  //   setGreetMsg(await invoke("greet", { name }));
+  // }
 
   return (
-    <div className="container">
-      <h1>Welcome to Tauri!</h1>
-
-      <div className="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <div className="row">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            greet();
-          }}
-        >
-          <input
-            id="greet-input"
-            onChange={(e) => setName(e.currentTarget.value)}
-            placeholder="Enter a name..."
-          />
-          <button type="submit">Greet</button>
-        </form>
-      </div>
-      <p>{greetMsg}</p>
-    </div>
+    <>
+      <RouterProvider router={router} />
+    </>
   );
 }
 
