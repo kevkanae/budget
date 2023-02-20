@@ -9,7 +9,7 @@ const Layout = () => {
     width: "100%",
 
     display: "grid",
-    gridTemplateRows: "auto 1fr",
+    gridTemplateRows: "7vh 93vh",
   };
 
   const main: CSSProperties = {
@@ -17,7 +17,7 @@ const Layout = () => {
     width: "100%",
 
     display: "grid",
-    gridTemplateColumns: "15% 85%",
+    gridTemplateColumns: "4vw 96vw",
   };
 
   return (

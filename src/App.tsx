@@ -6,8 +6,11 @@ import {
   RouterProvider,
 } from "@tanstack/react-router";
 import Layout from "./Layout/Layout";
+import Debts from "./pages/Debts/Debts";
+import Expenses from "./pages/Expenses/Expenses";
 import Home from "./pages/Home/Home";
 import Income from "./pages/Income/Income";
+import Investments from "./pages/Investments/Investments";
 // import { invoke } from "@tauri-apps/api/tauri";
 
 const rootRoute = new RootRoute({
@@ -26,11 +29,35 @@ const incomeRoute = new Route({
   component: () => <Income />,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, incomeRoute]);
+const expenseRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/expense",
+  component: () => <Expenses />,
+});
+
+const debtRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/debt",
+  component: () => <Debts />,
+});
+
+const investmentRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/investment",
+  component: () => <Investments />,
+});
+
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  incomeRoute,
+  expenseRoute,
+  debtRoute,
+  investmentRoute,
+]);
 
 // Set up a ReactRouter instance
 const router = new ReactRouter({
-  history: createHashHistory(),
+  // history: createHashHistory(),
   routeTree,
   defaultPreload: "intent",
 });
