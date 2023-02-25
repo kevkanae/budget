@@ -1,5 +1,16 @@
-.root{
-    height: 100%;
-    width: 100%;
-    background-color: aquamarine;
+@import "../../styles/variables.scss";
+
+.root {
+  height: 100%;
+  width: 100%;
+  background-color: $dark;
+  color: $light;
+  padding: 1rem 1.4rem;
+
+  .brand {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+  }
 }

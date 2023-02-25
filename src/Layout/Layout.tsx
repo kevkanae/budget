@@ -9,7 +9,7 @@ const Layout = () => {
     width: "100%",
 
     display: "grid",
-    gridTemplateRows: "7vh 93vh",
+    gridTemplateRows: "8vh 92vh",
   };
 
   const main: CSSProperties = {

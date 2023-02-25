@@ -1,16 +1,19 @@
 import {
-  createHashHistory,
   ReactRouter,
   RootRoute,
   Route,
   RouterProvider,
 } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
+
+import Loader from "./components/Loader/Loader";
 import Layout from "./Layout/Layout";
-import Debts from "./pages/Debts/Debts";
-import Expenses from "./pages/Expenses/Expenses";
 import Home from "./pages/Home/Home";
-import Income from "./pages/Income/Income";
-import Investments from "./pages/Investments/Investments";
+
+const Debts = lazy(() => import("./pages/Debts/Debts"));
+const Expenses = lazy(() => import("./pages/Expenses/Expenses"));
+const Income = lazy(() => import("./pages/Income/Income"));
+const Investments = lazy(() => import("./pages/Investments/Investments"));
 // import { invoke } from "@tauri-apps/api/tauri";
 
 const rootRoute = new RootRoute({
@@ -76,9 +79,9 @@ function App() {
   // }
 
   return (
-    <>
+    <Suspense fallback={<Loader />}>
       <RouterProvider router={router} />
-    </>
+    </Suspense>
   );
 }
 

@@ -1,13 +1,46 @@
-.root{
-    width:100%;
-    height:100%;
-    background-color: aquamarine;
-    
-    .item{
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        height: 10vh;
-        width: 100%;
+@import "../../styles/variables.scss";
+
+.root {
+  width: 100%;
+  height: 100%;
+  background-color: $dark;
+
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 10vh;
+    width: 100%;
+    position: relative;
+
+    &::before {
+      content: attr(data-text);
+      position: absolute;
+
+      // Vertically Center
+      top: 50%;
+      transform: translateY(-50%);
+
+      // Move to Right
+      left: 100%;
+      margin-left: 0.2rem;
+
+      font-size: 0.7rem;
+      padding: 0.1rem 0.3rem;
+      background-color: #b9b9b95d;
+      color: $dark;
+      text-align: center;
+
+      // Hide by Default
+      display: none;
     }
+
+    &:hover {
+      cursor: pointer;
+
+      &::before{
+        display: block;
+      }
+    }
+  }
 }
