@@ -1,3 +1,92 @@
+@import "../../styles/variables.scss";
+
 .root{
-    background-color: steelblue;
+    background-color: $light;
+    color: $dark;
+
+    height: 100%;
+    width: 100%;
+    padding: 1.4rem;
+
+    display: flex;
+    flex-direction: column;
+
+    &>h3{
+        font-size: 1.6rem;
+        font-weight: 600;
+    }
+
+    .summary{
+        margin: 1rem 0;
+        font-size: 0.75rem;
+        color: #777;
+    }
+
+    .cardWrapper{
+        height: 28vh;
+        width: 100%;
+        padding: 0.7rem 0;
+        margin: 0.5rem 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.4rem;
+
+        .card{
+            height: 100%;
+            width: 30vw;
+
+            padding: 0.7rem;
+            border-radius: 0.2rem;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .cardHeader{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .cardOverview{
+                    font-size: 0.75rem;
+
+                    
+                    
+                }
+            }
+
+            &>h4{
+                font-size: 1.6rem;
+                font-weight: 600;
+            }
+
+            .cardFooter{
+                display: flex;
+                align-items: center;
+                gap:0.7rem;
+
+                .cardLink{
+                    color: #AAA;
+                }
+            }
+        }
+    }
+    
+
+    .graph{
+        flex-grow: 1;
+        background-color: #cecece;
+    }
+
+    .green{
+        color: #1f961f;
+        font-weight: 600;
+    }  
+    .red{
+        color: #e71717;
+        font-weight: 600;
+    }  
 }

@@ -1,9 +1,9 @@
-const Investment = () => {
+const Investment = ({ color }: { color: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      fill="#FFF"
+      fill={color}
       height={24}
       width={24}
     >
