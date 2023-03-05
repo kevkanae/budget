@@ -2,44 +2,34 @@ ICICI:
   income:
     - date: 2023-03-01
       description: Salary
-      amount: 45000.00
+      amount: 45847.29
 
   expenses:
-    - date: 2023-02-05
-      description: Groceries
+    - date: 2023-03-05
+      description: Chicken
       category: food
-      amount: 200.00
+      amount: 0.00
+    - date: 2023-03-05
+      description: Tithe
+      category: personal
+      amount: 4500.00
 
   debt:
-    - date: 2023-02-01
-      description: Credit card balance
+    - date: 2023-03-05
+      description: Credit Card Balance
       amount: 500.00
       interest_rate: 15.0
 
   investments:
-    - date: 2023-02-01
-      description: 401(k) contribution
-      amount: 1000.00
+    - date: 2023-03-05
+      description: RD
+      amount: 5000.00
+    - date: 2023-03-05
+      description: Mutual Funds
+      amount: 5000.00
 
 BoB:
   income:
     - date: 2023-02-01
-      description: Salary
-      amount: 6000.00
-
-  expenses:
-    - date: 2023-02-05
-      description: Groceries
-      category: food
-      amount: 300.00
-
-  debt:
-    - date: 2023-02-01
-      description: Car loan
-      amount: 10000.00
-      interest_rate: 4.5
-
-  investments:
-    - date: 2023-02-01
-      description: Traditional IRA contribution
-      amount: 1500.00
+      description: Savings
+      amount: 5487.17
