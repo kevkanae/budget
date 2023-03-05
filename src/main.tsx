@@ -1,13 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-  ReactRouter,
-  RootRoute,
-  Route,
-  RouterProvider,
-} from "@tanstack/react-router";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { lazy, Suspense } from "react";
-
+import "./styles/main.scss";
 import Loader from "./components/Loader/Loader";
 import Layout from "./layouts/Layout";
 import Home from "./pages/Home/Home";
@@ -16,64 +11,40 @@ const Debts = lazy(() => import("./pages/Debts/Debts"));
 const Expenses = lazy(() => import("./pages/Expenses/Expenses"));
 const Income = lazy(() => import("./pages/Income/Income"));
 const Investments = lazy(() => import("./pages/Investments/Investments"));
+const Profiles = lazy(() => import("./pages/Profiles/Profiles"));
 
-const rootRoute = new RootRoute({
-  component: () => <Layout />,
-});
-
-const indexRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: "/",
-  component: () => <Home />,
-});
-
-const incomeRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: "/income",
-  component: () => <Income />,
-});
-
-const expenseRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: "/expense",
-  component: () => <Expenses />,
-});
-
-const debtRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: "/debt",
-  component: () => <Debts />,
-});
-
-const investmentRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: "/investment",
-  component: () => <Investments />,
-});
-
-const routeTree = rootRoute.addChildren([
-  indexRoute,
-  incomeRoute,
-  expenseRoute,
-  debtRoute,
-  investmentRoute,
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "income",
+        element: <Income />,
+      },
+      {
+        path: "expense",
+        element: <Expenses />,
+      },
+      {
+        path: "debt",
+        element: <Debts />,
+      },
+      {
+        path: "investment",
+        element: <Investments />,
+      },
+    ],
+  },
+  {
+    path: "/profiles",
+    element: <Profiles />,
+  },
 ]);
-
-// Set up a ReactRouter instance
-const router = new ReactRouter({
-  // history: createHashHistory(),
-  routeTree,
-  defaultPreload: "intent",
-});
-
-// Typesafety for the router
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router;
-  }
-}
-
-import "./styles/main.scss";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
