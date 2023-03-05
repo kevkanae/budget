@@ -16,7 +16,6 @@ const Debts = lazy(() => import("./pages/Debts/Debts"));
 const Expenses = lazy(() => import("./pages/Expenses/Expenses"));
 const Income = lazy(() => import("./pages/Income/Income"));
 const Investments = lazy(() => import("./pages/Investments/Investments"));
-// import { invoke } from "@tauri-apps/api/tauri";
 
 const rootRoute = new RootRoute({
   component: () => <Layout />,
@@ -83,8 +82,3 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     </Suspense>
   </React.StrictMode>
 );
-
-// async function greet() {
-//   // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-//   setGreetMsg(await invoke("greet", { name }));
-// }
