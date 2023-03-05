@@ -1,4 +1,4 @@
-import ArrowRight from "../../assets/ArrowRIght";
+import { BsArrowRight as ArrowRight } from "react-icons/bs";
 import sx from "./Home.module.scss";
 
 type Card = {

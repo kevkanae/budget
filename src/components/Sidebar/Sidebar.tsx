@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "react-router-dom";
 import { navigationData } from "../../utils/NavigationData";
 import sx from "./Sidebar.module.scss";
 
@@ -12,11 +12,7 @@ const Sidebar = () => {
           className={sx.item}
           data-text={data.name}
           key={data.id}
-          onClick={() =>
-            navigate({
-              to: data.link as any,
-            })
-          }
+          onClick={() => navigate(data.link)}
         >
           {data.icon}
         </div>
