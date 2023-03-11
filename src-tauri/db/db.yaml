@@ -3,22 +3,39 @@ ICICI:
     - date: 2023-03-01
       description: Salary
       amount: 45847.29
+    - date: 2023-03-06
+      description: Mom's Repayment
+      amount: 4600.00
 
   expenses:
     - date: 2023-03-05
       description: Chicken
       category: food
-      amount: 0.00
+      amount: 465.00
     - date: 2023-03-05
       description: Tithe
       category: personal
       amount: 4500.00
+    - date: 2023-03-06
+      description: Maintenance
+      category: personal
+      amount: 3280.00
+    - date: 2023-03-08
+      description: Credit Card Payment
+      category: debt
+      amount: 4768.44
 
   debt:
-    - date: 2023-03-05
-      description: Credit Card Balance
-      amount: 500.00
-      interest_rate: 15.0
+    - date: 2023-03-08
+      description: Green Tea
+      category: credit_card
+      amount: 620.00
+      interest_rate: 0.00
+    - date: 2023-03-08
+      description: YouTube Premium
+      category: credit_card
+      amount: 129.00
+      interest_rate: 0.00
 
   investments:
     - date: 2023-03-05

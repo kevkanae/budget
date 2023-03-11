@@ -1,19 +1,23 @@
-import sx from "./Header.module.scss";
+import { headerStyles as sx } from "./Header.styles";
 import { invoke } from "@tauri-apps/api/tauri";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useProfileStore } from "../../utils/Store";
-import { AiOutlineSetting as Settings } from "react-icons/ai";
+import SettingsIcon from "@mui/icons-material/SettingsOutlined";
+import IconButton from "@mui/material/IconButton";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Text from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 const Header = () => {
   const navigate = useNavigate();
 
   const { profiles, updateProfile } = useProfileStore((state) => state);
 
-  const popoverRef = useRef<HTMLDivElement | null>(null);
-  const [showPopover, setShowPopover] = useState(false);
-  useClickOutside(popoverRef, () => setShowPopover(false));
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
   const getProfiles = useCallback(async () => {
     const res: string[] = await invoke("get_profiles");
@@ -28,32 +32,41 @@ const Header = () => {
     getProfiles();
   }, []);
 
-  const handlePopover = () => setShowPopover(!showPopover);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
-    <div className={sx.root}>
-      <p className={sx.brand}>Okane</p>
+    <Box sx={sx.root}>
+      <Text sx={sx.brand}>Okane</Text>
 
-      <div className={sx.actions}>
-        <select className={sx.profiles} name="profiles">
+      <Box sx={sx.actions}>
+        <select style={sx.profiles} name="profiles">
           {profiles.map((profile) => (
             <option value={profile}>{profile}</option>
           ))}
         </select>
 
-        <Settings
-          className={sx.settings}
-          color={"#FFF"}
-          size={24}
-          onClick={handlePopover}
-        />
-        {showPopover && (
-          <div className={sx.popover} ref={popoverRef}>
-            <p onClick={() => navigate("/profiles")}>Manage Profiles</p>
-          </div>
-        )}
-      </div>
-    </div>
+        <IconButton aria-label="delete" onClick={handleClick}>
+          <SettingsIcon />
+        </IconButton>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
+          <MenuItem onClick={handleClose}>Theme</MenuItem>
+        </Menu>
+      </Box>
+    </Box>
   );
 };
 

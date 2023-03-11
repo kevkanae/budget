@@ -1,10 +1,16 @@
-import sx from "./Loader.module.scss";
+import Spinner from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
-const Loader = () => {
+interface LoaderProps {
+  height?: string;
+  width?: string;
+}
+
+const Loader = ({ height, width }: LoaderProps) => {
   return (
-    <div className={sx.root}>
-      <div className={sx.loader} />
-    </div>
+    <Box sx={{ height, width, display: "grid", placeItems: "center" }}>
+      <Spinner />
+    </Box>
   );
 };
 export default Loader;

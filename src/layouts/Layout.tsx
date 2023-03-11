@@ -1,10 +1,12 @@
 import { Outlet } from "react-router-dom";
-import { CSSProperties } from "react";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
+import Box from "@mui/material/Box";
+import { SxProps } from "@mui/material/styles";
+import { Colors } from "../styles/Variables";
 
 const Layout = () => {
-  const root: CSSProperties = {
+  const root: SxProps = {
     height: "100vh",
     width: "100%",
 
@@ -12,22 +14,23 @@ const Layout = () => {
     gridTemplateRows: "8vh 92vh",
   };
 
-  const main: CSSProperties = {
+  const main: SxProps = {
     height: "100%",
     width: "100%",
+    backgroundColor: Colors.light,
 
     display: "grid",
     gridTemplateColumns: "4vw 96vw",
   };
 
   return (
-    <div style={root}>
+    <Box sx={root}>
       <Header />
-      <div style={main}>
+      <Box sx={main}>
         <Sidebar />
         <Outlet />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

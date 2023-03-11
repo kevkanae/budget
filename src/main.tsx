@@ -6,6 +6,8 @@ import "./styles/main.scss";
 import Loader from "./components/Loader/Loader";
 import Layout from "./layouts/Layout";
 import Home from "./pages/Home/Home";
+import { ThemeProvider } from "@mui/material";
+import { theme } from "./styles/Theme";
 
 const Debts = lazy(() => import("./pages/Debts/Debts"));
 const Expenses = lazy(() => import("./pages/Expenses/Expenses"));
@@ -49,7 +51,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Suspense fallback={<Loader />}>
-      <RouterProvider router={router} />
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </Suspense>
   </React.StrictMode>
 );

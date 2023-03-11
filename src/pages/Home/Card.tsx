@@ -1,5 +1,8 @@
 import { BsArrowRight as ArrowRight } from "react-icons/bs";
-import sx from "./Home.module.scss";
+import Box from "@mui/material/Box";
+import Text from "@mui/material/Typography";
+import { homeStyles as sx } from "./Home.styles";
+import { useNavigate } from "react-router-dom";
 
 type Card = {
   id: number;
@@ -9,21 +12,29 @@ type Card = {
 };
 
 const Card = ({ data }: { data: Card }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className={sx.card}>
-      <div className={sx.cardHeader}>
+    <Box sx={sx.card}>
+      <Box sx={sx.cardHeader}>
         {data.icon}
-        <p className={sx.cardOverview}>
-          <span className={sx.red}>+2.11%</span> vs last 30 days
-        </p>
-      </div>
+        <Text sx={sx.cardOverview}>
+          <Text component={"span"} sx={sx.red}>
+            +2.11%
+          </Text>{" "}
+          vs last 30 days
+        </Text>
+      </Box>
 
-      <h4>+$ 3039</h4>
+      <Text sx={sx.h3}>+$ 3039</Text>
 
-      <div className={sx.cardFooter}>
-        <p className={sx.cardLink}>{data.name}</p> <ArrowRight color="#AAA" />
-      </div>
-    </div>
+      <Box sx={sx.cardFooter}>
+        <Text sx={sx.cardLink} onClick={() => navigate(data.link)}>
+          {data.name}
+        </Text>{" "}
+        <ArrowRight color="#AAA" />
+      </Box>
+    </Box>
   );
 };
 export default Card;

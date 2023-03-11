@@ -1,6 +1,7 @@
-import sx from "./Home.module.scss";
+import Box from "@mui/material/Box";
+import { homeStyles as sx } from "./Home.styles";
 
 const Graph = () => {
-  return <div className={sx.graph}>Graph</div>;
+  return <Box sx={sx.graph}>Graph</Box>;
 };
 export default Graph;

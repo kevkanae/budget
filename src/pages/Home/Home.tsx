@@ -2,9 +2,11 @@ import { cardData } from "../../utils/CardData";
 import { useProfileStore } from "../../utils/Store";
 import Card from "./Card";
 import Graph from "./Graph";
-import sx from "./Home.module.scss";
+import { homeStyles as sx } from "./Home.styles";
 import { invoke } from "@tauri-apps/api/tauri";
 import { useCallback, useEffect } from "react";
+import Box from "@mui/material/Box";
+import Text from "@mui/material/Typography";
 
 const Home = () => {
   const { profiles, updateProfile } = useProfileStore((state) => state);
@@ -24,19 +26,26 @@ const Home = () => {
   }, []);
 
   return (
-    <div className={sx.root}>
-      <h3>Overview</h3>
-      <p className={sx.summary}>
-        You spent <span className={sx.red}>$444</span> and earned{" "}
-        <span className={sx.green}>$434</span> this month
-      </p>
-      <div className={sx.cardWrapper}>
+    <Box sx={sx.root}>
+      <Text sx={sx.h3}>Overview</Text>
+      <Text sx={sx.summary}>
+        You spent{" "}
+        <Text component={"span"} sx={sx.red}>
+          $444
+        </Text>{" "}
+        and earned{" "}
+        <Text component={"span"} sx={sx.green}>
+          $434
+        </Text>{" "}
+        this month
+      </Text>
+      <Box sx={sx.cardWrapper}>
         {cardData.map((data) => (
           <Card data={data} key={data.id} />
         ))}
-      </div>
+      </Box>
       <Graph />
-    </div>
+    </Box>
   );
 };
 
