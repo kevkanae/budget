@@ -1,10 +1,14 @@
 ICICI:
   income:
-    - date: 2023-03-01
-      description: Salary
+    - id: 1
+      date: 2023-03-01
+      title: Salary
+      category: salary
       amount: 45847.29
-    - date: 2023-03-06
-      description: Mom's Repayment
+    - id: 2
+      date: 2023-03-06
+      title: Mom's Repayment
+      category: personal
       amount: 4600.00
 
   expenses:
@@ -47,6 +51,7 @@ ICICI:
 
 BoB:
   income:
-    - date: 2023-02-01
+    - id: 1
+      date: 2023-02-01
       description: Savings
       amount: 5487.17

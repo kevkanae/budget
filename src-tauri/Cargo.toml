@@ -1,20 +1,20 @@
 [package]
-name = "budget"
+name = "okane"
 version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "Budget App"
+authors = ["Kevin D Goveas"]
 license = ""
 repository = ""
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
 tauri-build = { version = "1.2", features = [] }
 
 [dependencies]
 serde = { version = "1.0.152", features = ["derive"] }
+serde_json = "1.0"
 serde_yaml = "0.9.17"
+chrono = "0.4.24"
 tauri = { version = "1.2", features = ["shell-open"] }
 
 [features]

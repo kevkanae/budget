@@ -10,7 +10,7 @@ const Sidebar = () => {
   return (
     <Box sx={sx.root}>
       {navigationData.map((data) => (
-        <Tooltip title={data.name} placement="right">
+        <Tooltip title={data.name} placement="right" key={data.id}>
           <Box
             sx={sx.item}
             data-text={data.name}

@@ -1,12 +1,11 @@
 import { SxProps } from "@mui/material/styles";
-import { Colors } from "../../styles/Variables";
 
 const root: SxProps = {
   height: "100%",
   width: "100%",
-  backgroundColor: "primary.main",
+  bgcolor: "background.default",
   color: "#fff",
-  padding: "1rem 1.4rem",
+  padding: "1rem 1.4rem 1rem 0.7rem",
   display: "flex",
   justifyContent: "space-between",
 };
@@ -30,7 +29,7 @@ const profiles: React.CSSProperties = {
   padding: "0.5rem 0.7rem",
   borderRadius: "0.2rem",
   backgroundColor: "#fff",
-  color: Colors.dark,
+  // color: Colors.dark,
   outline: "none",
 };
 
