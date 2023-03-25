@@ -1,33 +1,100 @@
 import { initStyles as sx } from "./Init.styles";
 import Box from "@mui/material/Box";
-import { useQuery } from "@tanstack/react-query";
-import { exists, BaseDirectory } from "@tauri-apps/api/fs";
-import { useState, useEffect, useCallback } from "react";
-import { useModalStore } from "../../utils/useModalStore";
-import { useNavigate } from "react-router-dom";
+import Text from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import InputBase from "@mui/material/InputBase";
+import Divider from "@mui/material/Divider";
+import { AddCircle, RemoveCircle } from "@mui/icons-material";
+import { IconButton, Button } from "@mui/material";
+import Loader from "../../components/Loader/Loader";
+import { useInit } from "./useInit.hooks";
 
 const Init = () => {
-  const navigate = useNavigate();
-  const setModal = useModalStore((state) => state.setModal);
+  const {
+    isLoading,
+    accName,
+    accounts,
+    handleInputChange,
+    handleAddAccount,
+    handleRemoveAccount,
+    handleSave,
+  } = useInit();
 
-  const [isLoading, setLoading] = useState<boolean>(true);
+  if (isLoading) return <Loader height={"100vh"} width={"100%"} />;
 
-  const checkUser = useCallback(async () => {
-    setLoading(true);
-    const isExistingUser = await exists("index.json", {
-      dir: BaseDirectory.AppLocalData,
-    }).finally(() => setLoading(false));
+  return (
+    <Box sx={sx.root}>
+      <Box sx={sx.left}>
+        <Text sx={sx.title}>Okane</Text>
+      </Box>
 
-    isExistingUser
-      ? navigate("/home")
-      : setModal("ADD_ACCOUNT", { show: true });
-  }, []);
+      <Box sx={sx.right}>
+        <Text sx={sx.header}>Welcome</Text>
+        <Box sx={sx.content}>
+          {/* Input */}
+          <Paper sx={sx.addPaper}>
+            <InputBase
+              sx={sx.input}
+              placeholder="Add Account"
+              value={accName}
+              onChange={handleInputChange}
+            />
+            <IconButton
+              sx={{ p: "0.7rem" }}
+              color="primary"
+              type="reset"
+              onClick={handleAddAccount}
+            >
+              <AddCircle />
+            </IconButton>
+          </Paper>
 
-  useEffect(() => {
-    checkUser();
-  }, [checkUser]);
+          <Divider variant="middle" sx={{ my: 1 }} />
 
-  return <Box sx={sx.root} />;
+          {/* Accounts */}
+          {accounts.length > 0 && (
+            <Paper sx={sx.list}>
+              {accounts.map((acc, i) => (
+                <Box
+                  key={i}
+                  sx={sx.listItem}
+                  marginBottom={i === accounts.length - 1 ? 0 : 2}
+                >
+                  <Text marginRight={"auto"}>{acc.account}</Text>
+                  <Paper
+                    sx={{
+                      ...sx.colorCard,
+                      backgroundImage: acc.card_color,
+                      backgroundSize: "contain",
+                    }}
+                  />
+                  <IconButton
+                    sx={{ p: "0.7rem" }}
+                    color="error"
+                    onClick={() => handleRemoveAccount(acc)}
+                  >
+                    <RemoveCircle />
+                  </IconButton>
+                </Box>
+              ))}
+            </Paper>
+          )}
+
+          {/* Save */}
+          <Box mt={"auto"}>
+            <Button
+              variant={"contained"}
+              disabled={accounts.length < 1}
+              onClick={handleSave}
+              sx={{ px: 4, py: 1 }}
+            >
+              Save
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
 };
 
 export default Init;
