@@ -18,6 +18,7 @@ specifiers:
   react-dom: ^18.2.0
   react-icons: ^4.8.0
   react-router-dom: ^6.9.0
+  react-toastify: ^9.1.2
   sass: ^1.60.0
   typescript: ^5.0.2
   vite: '^4.2.1 '
@@ -36,6 +37,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-icons: 4.8.0_react@18.2.0
   react-router-dom: 6.9.0_biqbaboplfbrettd7655fr4n2y
+  react-toastify: 9.1.2_biqbaboplfbrettd7655fr4n2y
   sass: 1.60.0
   zustand: 4.3.6_react@18.2.0
 
@@ -1257,6 +1259,17 @@ packages:
     dependencies:
       '@remix-run/router': 1.4.0
       react: 18.2.0
+    dev: false
+
+  /react-toastify/9.1.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-PBfzXO5jMGEtdYR5jxrORlNZZe/EuOkwvwKijMatsZZm8IZwLj01YvobeJYNjFcA6uy6CVrx2fzL9GWbhWPTDA==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      clsx: 1.2.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-transition-group/4.4.5_biqbaboplfbrettd7655fr4n2y:

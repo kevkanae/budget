@@ -9,6 +9,7 @@ import Home from "./pages/Home/Home";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Init from "./pages/Init/Init";
 import RootModal from "./components/Modals/Root.modal";
+import { ToastContainer } from "react-toastify";
 import AppTheme from "./styles/Theme";
 
 const queryClient = new QueryClient();
@@ -62,6 +63,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <Suspense fallback={<Loader />}>
       <QueryClientProvider client={queryClient}>
         <AppTheme>
+          <ToastContainer />
           <RootModal />
           <RouterProvider router={router} />
         </AppTheme>
