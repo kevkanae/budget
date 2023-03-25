@@ -16,6 +16,8 @@ const Header = () => {
     handleSettingsOpen,
     handleSettingsClose,
     handleProfileChange,
+    prefersDarkMode,
+    handleThemeToggle,
   } = useHeader();
 
   return (
@@ -53,7 +55,9 @@ const Header = () => {
           }}
         >
           <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
-          <MenuItem onClick={handleSettingsClose}>Theme</MenuItem>
+          <MenuItem onClick={handleThemeToggle}>
+            {prefersDarkMode ? "Light" : "Dark"}
+          </MenuItem>
         </Menu>
       </Box>
     </Box>

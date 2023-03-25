@@ -3,6 +3,7 @@ import { Profile, useProfileStore } from "../../utils/useProfileStore";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
+import { useThemeStore } from "../../utils/UseThemeStore";
 
 export const useHeader = () => {
   const navigate = useNavigate();
@@ -10,6 +11,8 @@ export const useHeader = () => {
   const { profiles, updateProfileList, updateProfile } = useProfileStore(
     (state) => state
   );
+
+  const { prefersDarkMode, setMode } = useThemeStore((state) => state);
 
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
   const [selectedProfile, setSelectedProfile] = useState<null | Profile>(null);
@@ -39,6 +42,8 @@ export const useHeader = () => {
     setSelectedProfile(curr!);
   };
 
+  const handleThemeToggle = () => setMode(prefersDarkMode ? "light" : "dark");
+
   return {
     navigate,
     profileData,
@@ -47,5 +52,7 @@ export const useHeader = () => {
     handleSettingsOpen,
     handleSettingsClose,
     handleProfileChange,
+    prefersDarkMode,
+    handleThemeToggle,
   };
 };
