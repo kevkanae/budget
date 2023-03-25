@@ -5,15 +5,14 @@ import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import { useModalStore } from "../../../utils/useModalStore";
 import { addAccountStyles as sx } from "./AddAccount.styles";
 import { modalStyles } from "../Root.modal";
 import { AddCircle } from "@mui/icons-material";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { invoke } from "@tauri-apps/api";
 import { generateLinearGradient } from "../../../utils/ColorGen";
 import Button from "@mui/material/Button";
+import { writeTextFile, BaseDirectory } from "@tauri-apps/api/fs";
+import { useNavigate } from "react-router-dom";
 
 type Account = {
   account: string;
@@ -22,28 +21,27 @@ type Account = {
 
 type Props = { show: boolean };
 const AddAccountModal = ({ show }: Props) => {
-  const [account, setAccount] = useState<string>("");
+  const navigate = useNavigate();
+  const [accName, setAccName] = useState<string>("");
   const [accounts, setAccounts] = useState<Account[]>([]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setAccount(event.target.value);
+    setAccName(event.target.value);
 
   const handleAddAccount = () => {
     setAccounts((prev) => [
       ...prev,
       {
-        account: account,
+        account: accName,
         card_color: generateLinearGradient(),
       },
     ]);
   };
 
-  const handleSave = () => {
-    invoke<any>("add_account", {
-      newAccount: accounts,
-    }).then(() => {
-      console.log("HIIII");
-    });
+  const handleSave = async () => {
+    await writeTextFile("index.json", JSON.stringify(accounts), {
+      dir: BaseDirectory.AppLocalData,
+    }).then(() => navigate("/home"));
   };
 
   return (
@@ -72,9 +70,13 @@ const AddAccountModal = ({ show }: Props) => {
               <AddCircle />
             </IconButton>
           </Paper>
-          {/* <Divider variant="middle" />
-          <Box sx={sx.addPaper}></Box> */}
-          <Button onClick={handleSave}>Save</Button>
+          <Divider variant="middle" sx={{ my: 3 }} />
+          {accounts.map((acc) => (
+            <Box>{acc.account}</Box>
+          ))}
+          <Box>
+            <Button onClick={handleSave}>Save</Button>
+          </Box>
         </Box>
       </Box>
     </Modal>

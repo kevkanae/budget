@@ -7,7 +7,7 @@ import Loader from "./components/Loader/Loader";
 import Layout from "./layouts/Layout";
 import Home from "./pages/Home/Home";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Splash from "./pages/Splash/Splash";
+import Init from "./pages/Init/Init";
 import RootModal from "./components/Modals/Root.modal";
 import AppTheme from "./styles/Theme";
 
@@ -22,7 +22,7 @@ const Profiles = lazy(() => import("./pages/Profiles/Profiles"));
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Splash />,
+    element: <Init />,
   },
   {
     path: "/home",
@@ -52,7 +52,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/profiles",
+    path: "/profile",
     element: <Profiles />,
   },
 ]);

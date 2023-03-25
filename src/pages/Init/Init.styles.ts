@@ -26,7 +26,7 @@ const subtitle: SxProps = {
   fontWeight: 500,
 };
 
-export const splashStyles = {
+export const initStyles = {
   root,
   title,
   span,
