@@ -16,6 +16,10 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "fs": {
+        "all": true,
+        "scope": ["**"]
       }
     },
     "bundle": {
@@ -27,7 +31,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "okane",
       "targets": "all"
     },
     "security": {
