@@ -9,7 +9,7 @@ import { addAccountStyles as sx } from "./AddAccount.styles";
 import { modalStyles } from "../Root.modal";
 import { AddCircle } from "@mui/icons-material";
 import { useState } from "react";
-import { generateLinearGradient } from "../../../utils/ColorGen";
+// import { generateLinearGradient } from "../../../utils/GradientColorData";
 import Button from "@mui/material/Button";
 import { writeTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,7 @@ const AddAccountModal = ({ show }: Props) => {
       ...prev,
       {
         account: accName,
-        card_color: generateLinearGradient(),
+        card_color: "random",
       },
     ]);
   };

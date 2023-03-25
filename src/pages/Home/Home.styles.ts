@@ -4,7 +4,6 @@ const root: SxProps = {
   height: "100%",
   width: "100%",
   // backgroundColor: Colors.light,
-  color: "primary.main",
   display: "flex",
   flexDirection: "column",
   p: "1.4rem",
@@ -13,6 +12,7 @@ const root: SxProps = {
 const h3: SxProps = {
   fontSize: "1.6rem",
   fontWeight: 600,
+  color: "secondary.main",
 };
 
 const summary: SxProps = {
