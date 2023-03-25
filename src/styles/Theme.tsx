@@ -5,33 +5,31 @@ import { useThemeStore } from "../utils/UseThemeStore";
 
 const lightThemeToken = {
   primary: {
-    main: "#9BDEE8",
+    main: "#742bE4",
   },
   secondary: {
-    main: "#E8A59b",
+    main: "#EEE8FF",
   },
   background: {
-    default: "#FFF",
+    default: "#EBF1F4",
   },
   text: {
-    primary: "#010101",
-    secondary: "#5A6571",
+    primary: "#242424",
   },
 };
 
 const darkThemeToken = {
   primary: {
-    main: "#9BE8CC",
+    main: "#742bE4",
   },
   secondary: {
-    main: "#E89BB7",
+    main: "#EEE8FF",
   },
   background: {
-    default: "#010101",
+    default: "#111516",
   },
   text: {
-    primary: "#FFF",
-    secondary: "#AAA",
+    primary: "#FFFFFF",
   },
 };
 
