@@ -1,5 +1,9 @@
 {
   "name": "okane",
+  "author": {
+    "name": "Kevin D Goveas",
+    "email": "kevkanae777@gmail.com"
+  },
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -24,15 +28,15 @@
     "react-router-dom": "^6.10.0",
     "react-toastify": "^9.1.2",
     "sass": "^1.60.0",
-    "zustand": "^4.3.6"
+    "zustand": "^4.3.7"
   },
   "devDependencies": {
-    "@types/node": "^18.7.10",
-    "@types/react": "^18.0.15",
+    "@tauri-apps/cli": "^1.2.3",
+    "@types/node": "^18.15.11",
+    "@types/react": "^18.0.31",
     "@types/react-dom": "^18.0.6",
-    "@vitejs/plugin-react-swc": "^3.0.0",
-    "typescript": "^4.6.4",
-    "vite": "^4.0.0",
-    "@tauri-apps/cli": "^1.2.2"
+    "@vitejs/plugin-react-swc": "^3.2.0",
+    "typescript": "^5.0.3",
+    "vite": "^4.2.1 "
   }
 }

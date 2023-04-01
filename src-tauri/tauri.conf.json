@@ -12,14 +12,10 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false,
-      "shell": {
-        "all": false,
-        "open": true
-      },
-      "fs": {
+      "all": true,
+      "fs":{
         "all": true,
-        "scope": ["**"]
+        "scope": ["$APP/*","$DOWNLOAD/*"]
       }
     },
     "bundle": {
