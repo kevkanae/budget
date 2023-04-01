@@ -1,8 +1,13 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
+// import react from "@vitejs/plugin-react";
+
+const mobile =
+  process.env.TAURI_PLATFORM === "android" ||
+  process.env.TAURI_PLATFORM === "ios";
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(async () => ({
   plugins: [react()],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
@@ -10,7 +15,7 @@ export default defineConfig({
   clearScreen: false,
   // tauri expects a fixed port, fail if that port is not available
   server: {
-    port: 3000,
+    port: 1420,
     strictPort: true,
   },
   // to make use of `TAURI_DEBUG` and other env variables
@@ -24,4 +29,4 @@ export default defineConfig({
     // produce sourcemaps for debug builds
     sourcemap: !!process.env.TAURI_DEBUG,
   },
-});
+}));

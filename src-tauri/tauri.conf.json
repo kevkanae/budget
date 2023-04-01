@@ -2,12 +2,12 @@
   "build": {
     "beforeDevCommand": "pnpm dev",
     "beforeBuildCommand": "pnpm build",
-    "devPath": "http://localhost:3000",
+    "devPath": "http://localhost:1420",
     "distDir": "../dist",
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "okane",
+    "productName": "Okane",
     "version": "0.0.0"
   },
   "tauri": {
@@ -31,7 +31,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "okane",
+      "identifier": "com.okane.dev",
       "targets": "all"
     },
     "security": {
@@ -44,7 +44,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "Okane",
+        "title": "test",
         "width": 800,
         "height": 600
       }
