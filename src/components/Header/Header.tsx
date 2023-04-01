@@ -25,7 +25,7 @@ const Header = () => {
       <Text sx={sx.brand}>Okane</Text>
 
       <Box sx={sx.actions}>
-        <select
+        {/* <select
           style={sx.profiles}
           name="profiles"
           value={selectedProfile?.id}
@@ -36,7 +36,7 @@ const Header = () => {
               {profile.name}
             </option>
           ))}
-        </select>
+        </select> */}
 
         <IconButton
           aria-label="Settings"

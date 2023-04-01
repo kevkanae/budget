@@ -22,21 +22,23 @@ export const useInit = () => {
     setAccName(event.target.value);
 
   const handleAddAccount = () => {
-    const colorIndex = Math.floor(Math.random() * colors.length);
-    const randomColor = colors.splice(colorIndex, 1)[0];
+    if (accName) {
+      const colorIndex = Math.floor(Math.random() * colors.length);
+      const randomColor = colors.splice(colorIndex, 1)[0];
 
-    accounts.length < 5
-      ? setAccounts((prev) => [
-          ...prev,
-          {
-            id: prev.length + 1,
-            account: accName,
-            card_color: randomColor,
-          },
-        ])
-      : notify("info", "You can only add 5 accounts");
+      accounts.length < 5
+        ? setAccounts((prev) => [
+            ...prev,
+            {
+              id: prev.length + 1,
+              account: accName,
+              card_color: randomColor,
+            },
+          ])
+        : notify("info", "You can only add 5 accounts");
 
-    setAccName("");
+      setAccName("");
+    }
   };
 
   const handleRemoveAccount = (currentAcc: Account) => {
@@ -47,18 +49,34 @@ export const useInit = () => {
   };
 
   const handleSave = async () => {
-    await writeTextFile("index.json", JSON.stringify(accounts), {
-      dir: BaseDirectory.AppLocalData,
-    }).then(() => navigate("/home"));
+
+    type Index = {
+      init:Account[];
+      accounts: ;
+
+    }
+
+    try {
+      await writeTextFile("index.json", JSON.stringify(accounts), {
+        dir: BaseDirectory.Download,
+      }).then(() => navigate("/home"));
+    } catch (error) {
+      console.log(error);
+      notify("error", "Something went wrong");
+    }
   };
 
   const checkUser = useCallback(async () => {
-    setLoading(true);
-    const isExistingUser = await exists("index.json", {
-      dir: BaseDirectory.AppLocalData,
-    }).finally(() => setLoading(false));
-
-    if (isExistingUser) navigate("/home");
+    try {
+      setLoading(true);
+      const isExistingUser = await exists("index.json", {
+        dir: BaseDirectory.Download,
+      }).finally(() => setLoading(false));
+      if (isExistingUser) navigate("/home");
+    } catch (error) {
+      console.log(error);
+      notify("error", "Something went wrong");
+    }
   }, []);
 
   useEffect(() => {

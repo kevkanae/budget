@@ -1,13 +1,16 @@
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Box from "@mui/material/Box";
 import { SxProps } from "@mui/material/styles";
 import { exists, BaseDirectory } from "@tauri-apps/api/fs";
 import { useState, useEffect, useCallback } from "react";
+import Loader from "../components/Loader/Loader";
+import { notify } from "../utils/Notify";
 
 const Layout = () => {
   const [indexFileExists, setIndexFileExists] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const root: SxProps = {
     height: "100vh",
@@ -26,15 +29,23 @@ const Layout = () => {
   };
 
   const checkUser = useCallback(async () => {
-    const isExistingUser = await exists("index.json", {
-      dir: BaseDirectory.AppLocalData,
-    });
-    setIndexFileExists(isExistingUser);
+    try {
+      setLoading(true);
+      const isExistingUser = await exists("index.json", {
+        dir: BaseDirectory.Download,
+      }).finally(() => setLoading(false));
+      setIndexFileExists(isExistingUser);
+    } catch (error) {
+      console.log(error);
+      notify("error", "Something went wrong");
+    }
   }, []);
 
   useEffect(() => {
     checkUser();
   }, [checkUser]);
+
+  if (isLoading) return <Loader height={"100vh"} width={"100%"} />;
 
   return (
     <Box sx={root}>

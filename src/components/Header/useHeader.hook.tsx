@@ -17,14 +17,7 @@ export const useHeader = () => {
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
   const [selectedProfile, setSelectedProfile] = useState<null | Profile>(null);
 
-  const { data: profileData } = useQuery({
-    queryKey: ["GetProfiles"],
-    queryFn: () => invoke<Profile[]>("get_profiles"),
-    onSuccess(data) {
-      updateProfileList(data);
-      setSelectedProfile(data[0]);
-    },
-  });
+  const profileData: any = [];
 
   const handleSettingsOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchor(event.currentTarget);
