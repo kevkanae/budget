@@ -20,6 +20,34 @@ export const useInit = () => {
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [colors, setColors] = useState<string[]>(gradientColorArray);
 
+  const checkUser = useCallback(async () => {
+    try {
+      setLoading(true);
+      await exists("index.json", {
+        dir: BaseDirectory.Download,
+      })
+        .then(async (isExists) => {
+          if (isExists) {
+            await readTextFile("index.json", {
+              dir: BaseDirectory.Download,
+            }).then((data) => {
+              const parsedData: DB = JSON.parse(data);
+              initialUpdate(parsedData);
+              navigate("/home");
+            });
+          }
+        })
+        .finally(() => setLoading(false));
+    } catch (error) {
+      console.log(error);
+      notify("error", "Something went wrong");
+    }
+  }, []);
+
+  useEffect(() => {
+    checkUser();
+  }, [checkUser]);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAccName(event.target.value);
   };
@@ -83,34 +111,6 @@ export const useInit = () => {
       notify("error", "Something went wrong");
     }
   };
-
-  const checkUser = useCallback(async () => {
-    try {
-      setLoading(true);
-      await exists("index.json", {
-        dir: BaseDirectory.Download,
-      })
-        .then(async (isExists) => {
-          if (isExists) {
-            await readTextFile("index.json", {
-              dir: BaseDirectory.Download,
-            }).then((data) => {
-              const parsedData: DB = JSON.parse(data);
-              initialUpdate(parsedData);
-              navigate("/home");
-            });
-          }
-        })
-        .finally(() => setLoading(false));
-    } catch (error) {
-      console.log(error);
-      notify("error", "Something went wrong");
-    }
-  }, []);
-
-  useEffect(() => {
-    checkUser();
-  }, [checkUser]);
 
   return {
     isLoading,
