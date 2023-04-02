@@ -1,5 +1,5 @@
 import { SxProps } from "@mui/system";
-import { useModalStore } from "../../utils/useModalStore";
+import { useModalStore } from "../../store/useModalStore";
 import AddAccount from "./AddAccount/AddAccount.modal";
 
 export const modalStyles: SxProps = {

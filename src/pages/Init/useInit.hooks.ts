@@ -1,25 +1,28 @@
-import { exists, BaseDirectory, writeTextFile } from "@tauri-apps/api/fs";
+import {
+  BaseDirectory,
+  exists,
+  readTextFile,
+  writeTextFile,
+} from "@tauri-apps/api/fs";
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { gradientColorArray } from "../../utils/GradientColorData";
 import { notify } from "../../utils/Notify";
-
-type Account = {
-  id: number;
-  account: string;
-  card_color: string;
-};
+import { Account, DB } from "../../utils/Database.type";
+import { useDatabaseStore } from "../../store/useDatabaseStore";
 
 export const useInit = () => {
   const navigate = useNavigate();
+  const initialUpdate = useDatabaseStore((state) => state.initialUpdate);
 
   const [isLoading, setLoading] = useState<boolean>(true);
   const [accName, setAccName] = useState<string>("");
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [colors, setColors] = useState<string[]>(gradientColorArray);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAccName(event.target.value);
+  };
 
   const handleAddAccount = () => {
     if (accName) {
@@ -31,8 +34,8 @@ export const useInit = () => {
             ...prev,
             {
               id: prev.length + 1,
-              account: accName,
-              card_color: randomColor,
+              accountName: accName,
+              cardColor: randomColor,
             },
           ])
         : notify("info", "You can only add 5 accounts");
@@ -42,24 +45,39 @@ export const useInit = () => {
   };
 
   const handleRemoveAccount = (currentAcc: Account) => {
-    setColors((prev) => [...prev, currentAcc.card_color]);
+    setColors((prev) => [...prev, currentAcc.cardColor]);
 
     const newAccounts = accounts.filter((acc) => acc.id !== currentAcc.id);
     setAccounts(newAccounts);
   };
 
   const handleSave = async () => {
-
-    type Index = {
-      init:Account[];
-      accounts: ;
-
-    }
+    const initialData: DB = {
+      accounts: accounts,
+      details: accounts.map((acc) => ({
+        id: acc.id,
+        accountName: acc.accountName,
+        createdAt: Date.now(),
+        updatedAt: null,
+        months: [
+          {
+            month: "apr",
+            income: [],
+            expense: [],
+            debt: [],
+            investment: [],
+          },
+        ],
+      })),
+    };
 
     try {
+      setLoading(true);
       await writeTextFile("index.json", JSON.stringify(accounts), {
         dir: BaseDirectory.Download,
-      }).then(() => navigate("/home"));
+      })
+        .then(() => initialUpdate(initialData))
+        .finally(() => setLoading(false));
     } catch (error) {
       console.log(error);
       notify("error", "Something went wrong");
@@ -69,10 +87,21 @@ export const useInit = () => {
   const checkUser = useCallback(async () => {
     try {
       setLoading(true);
-      const isExistingUser = await exists("index.json", {
+      await exists("index.json", {
         dir: BaseDirectory.Download,
-      }).finally(() => setLoading(false));
-      if (isExistingUser) navigate("/home");
+      })
+        .then(async (isExists) => {
+          if (isExists) {
+            await readTextFile("index.json", {
+              dir: BaseDirectory.Download,
+            }).then((data) => {
+              const parsedData: DB = JSON.parse(data);
+              initialUpdate(parsedData);
+              navigate("/home");
+            });
+          }
+        })
+        .finally(() => setLoading(false));
     } catch (error) {
       console.log(error);
       notify("error", "Something went wrong");

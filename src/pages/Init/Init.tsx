@@ -60,12 +60,13 @@ const Init = () => {
                   sx={sx.listItem}
                   marginBottom={i === accounts.length - 1 ? 0 : 2}
                 >
-                  <Text marginRight={"auto"}>{acc.account}</Text>
+                  <Text marginRight={"auto"} fontWeight={600}>
+                    {acc.accountName}
+                  </Text>
                   <Paper
                     sx={{
                       ...sx.colorCard,
-                      backgroundImage: acc.card_color,
-                      backgroundSize: "contain",
+                      backgroundImage: acc.cardColor,
                     }}
                   />
                   <IconButton

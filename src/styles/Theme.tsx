@@ -1,7 +1,7 @@
 import { ReactNode, useMemo } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline, PaletteMode } from "@mui/material";
-import { useThemeStore } from "../utils/UseThemeStore";
+import { useThemeStore } from "../store/UseThemeStore";
 
 const lightThemeToken = {
   primary: {

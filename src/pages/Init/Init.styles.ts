@@ -91,6 +91,7 @@ const colorCard: SxProps = {
   width: "56px",
   borderRadius: "0.5rem",
   boxShadow: 7,
+  backgroundSize: "contain",
 };
 
 const addButton: SxProps = {

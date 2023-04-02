@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Profile, useProfileStore } from "../../utils/useProfileStore";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api";
-import { useThemeStore } from "../../utils/UseThemeStore";
+import { useProfileStore, Profile } from "../../store/useProfileStore";
+import { useThemeStore } from "../../store/UseThemeStore";
 
 export const useHeader = () => {
   const navigate = useNavigate();
