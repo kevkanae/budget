@@ -101,11 +101,12 @@ export const useInit = () => {
 
     try {
       setLoading(true);
-      await writeTextFile("index.json", JSON.stringify(accounts), {
+      await writeTextFile("index.json", JSON.stringify(initialData), {
         dir: BaseDirectory.Download,
       })
         .then(() => initialUpdate(initialData))
-        .finally(() => setLoading(false));
+        .then(() => setLoading(false))
+        .finally(() => navigate("/home"));
     } catch (error) {
       console.log(error);
       notify("error", "Something went wrong");

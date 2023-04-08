@@ -5,7 +5,7 @@ import { useThemeStore } from "../store/UseThemeStore";
 
 const lightThemeToken = {
   primary: {
-    main: "#742bE4",
+    main: "#00e4e2",
   },
   secondary: {
     main: "#EEE8FF",
@@ -20,7 +20,7 @@ const lightThemeToken = {
 
 const darkThemeToken = {
   primary: {
-    main: "#742bE4",
+    main: "#00e4e2",
   },
   secondary: {
     main: "#EEE8FF",
