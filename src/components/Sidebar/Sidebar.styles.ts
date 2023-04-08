@@ -11,7 +11,8 @@ const root: SxProps = {
   py: 7,
   px: 2,
   gap: 2,
-  borderRight: "1px solid #555",
+  borderRight: "1px solid",
+  borderRightColor: "divider",
 };
 
 const avatarWrapper: SxProps = {
@@ -39,12 +40,17 @@ const item: SxProps = {
   display: "flex",
   alignItems: "center",
   pl: 3,
+  pr: 2,
+  py: 2,
   gap: 2,
-  height: "10vh",
   width: "100%",
+  fontWeight: 600,
+  color: "text.secondary",
   "&:hover": {
     cursor: "pointer",
-    color: "primary.main",
+    color: "text.primary",
+    boxShadow: 1,
+    borderRadius: "0.3rem",
   },
 };
 

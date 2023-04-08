@@ -14,7 +14,7 @@ import { useSidebar } from "./useSidebar.hook";
 const Sidebar = () => {
   const {
     navigate,
-    profileData,
+    userData,
     anchor,
     selectedProfile,
     prefersDarkMode,
@@ -41,24 +41,26 @@ const Sidebar = () => {
         </Box>
       ))}
       <Box sx={sx.actions}>
-        <FormControl sx={{ width: "100%" }} size="small">
-          <InputLabel id="Account-Select">Account</InputLabel>
-          <Select
-            labelId="Account-Select"
-            id="Account-Select"
-            sx={sx.profiles}
-            value={selectedProfile.id.toString()}
-            label="Account"
-            fullWidth
-            onChange={handleProfileChange}
-          >
-            {profileData.map((profile) => (
-              <MenuItem key={profile.id} value={profile.id}>
-                {profile.accountName}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        {userData && selectedProfile && (
+          <FormControl sx={{ width: "100%" }} size="small">
+            <InputLabel id="Account-Select">Account</InputLabel>
+            <Select
+              labelId="Account-Select"
+              id="Account-Select"
+              sx={sx.profiles}
+              value={selectedProfile.id.toString()}
+              label="Account"
+              fullWidth
+              onChange={handleProfileChange}
+            >
+              {userData.accounts.map((profile) => (
+                <MenuItem key={profile.id} value={profile.id}>
+                  {profile.accountName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
 
         <IconButton
           aria-label="Settings"
