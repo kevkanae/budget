@@ -11,13 +11,10 @@ import Init from "./pages/Init/Init";
 import RootModal from "./components/Modals/Root.modal";
 import { ToastContainer } from "react-toastify";
 import AppTheme from "./styles/Theme";
+import Add from "./pages/Add/Add";
 
 const queryClient = new QueryClient();
 
-const Debts = lazy(() => import("./pages/Debts/Debts"));
-const Expenses = lazy(() => import("./pages/Expenses/Expenses"));
-const Income = lazy(() => import("./pages/Income/Income"));
-const Investments = lazy(() => import("./pages/Investments/Investments"));
 const Profiles = lazy(() => import("./pages/Profiles/Profiles"));
 
 const router = createBrowserRouter([
@@ -34,24 +31,11 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "income",
-        element: <Income />,
-      },
-      {
-        path: "expense",
-        element: <Expenses />,
-      },
-      {
-        path: "debt",
-        element: <Debts />,
-      },
-      {
-        path: "investment",
-        element: <Investments />,
+        path: ":type",
+        element: <Add />,
       },
     ],
   },
-
   {
     path: "/profile",
     element: <Profiles />,

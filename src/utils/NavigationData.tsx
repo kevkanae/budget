@@ -18,25 +18,25 @@ export const navigationData = [
   {
     id: 2,
     name: "Income",
-    link: "/income",
+    link: "income",
     icon: <Note color="#FFF" size={21} />,
   },
   {
     id: 3,
     name: "Expense",
-    link: "/expense",
+    link: "expense",
     icon: <CreditCard color="#FFF" size={21} />,
   },
   {
     id: 4,
     name: "Debt",
-    link: "/debt",
+    link: "debt",
     icon: <Debts color="#FFF" size={21} />,
   },
   {
     id: 5,
     name: "Investment",
-    link: "/investment",
+    link: "investment",
     icon: <Investment color="#FFF" size={21} />,
   },
 ];

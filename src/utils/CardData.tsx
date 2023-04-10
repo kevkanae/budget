@@ -9,25 +9,25 @@ export const cardData = [
   {
     id: 2,
     name: "Incomes",
-    link: "/income",
+    link: "income",
     icon: <Note color="#000" size={21} />,
   },
   {
     id: 3,
     name: "Expenses",
-    link: "/expense",
+    link: "expense",
     icon: <CreditCard color="#000" size={21} />,
   },
   {
     id: 4,
     name: "Mortgages & Loans",
-    link: "/debt",
+    link: "debt",
     icon: <Debts color="#000" size={21} />,
   },
   {
     id: 5,
     name: "Investments",
-    link: "/investment",
+    link: "investment",
     icon: <Investment color="#000" size={21} />,
   },
 ];

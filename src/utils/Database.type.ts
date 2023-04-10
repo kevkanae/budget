@@ -19,37 +19,13 @@ export interface Detail {
 
 export interface Month {
   month: string;
-  income: Income[];
-  expense: Expense[];
-  debt: Debt[];
-  investment: Investment[];
+  income: BaseEntry[];
+  expense: BaseEntry[];
+  debt: BaseEntry[];
+  investment: BaseEntry[];
 }
 
-export interface Income {
-  createdAt: number;
-  updatedAt: null | number;
-  title: string;
-  comments: null | string;
-  amount: string;
-}
-
-export interface Expense {
-  createdAt: number;
-  updatedAt: null | number;
-  title: string;
-  comments: null | string;
-  amount: string;
-}
-
-export interface Debt {
-  createdAt: number;
-  updatedAt: null | number;
-  title: string;
-  comments: null | string;
-  amount: string;
-}
-
-export interface Investment {
+interface BaseEntry {
   createdAt: number;
   updatedAt: null | number;
   title: string;

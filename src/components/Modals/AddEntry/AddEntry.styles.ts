@@ -1,4 +1,5 @@
 import { SxProps } from "@mui/material/styles";
+import { CSSProperties } from "react";
 
 const root: SxProps = {
   minHeight: "10vh",
@@ -9,24 +10,36 @@ const root: SxProps = {
   p: "1.4rem",
 };
 
+const top: SxProps = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  mb: "1.4rem",
+};
+
 const header: SxProps = {
   fontSize: "1.4rem",
   fontWeight: 600,
-  mb: "1.4rem",
   color: "secondary.main",
 };
 
 const content: SxProps = {
+  width: "100%",
+};
+
+const form: CSSProperties = {
+  width: "100%",
   display: "flex",
   flexDirection: "column",
   gap: "1.4rem",
 };
 
-const addPaper: SxProps = {
-  p: "2px 4px",
+const subform: CSSProperties = {
+  width: "100%",
   display: "flex",
   alignItems: "center",
-  width: "25vw",
+  justifyContent: "space-between",
+  // gap: "1.4rem",
 };
 
 const input: SxProps = {
@@ -38,11 +51,13 @@ const addButton: SxProps = {
   p: "0.7rem",
 };
 
-export const addAccountStyles = {
+export const addEntryStyles = {
   root,
+  top,
   header,
-  addPaper,
+  content,
+  form,
+  subform,
   input,
   addButton,
-  content,
 };

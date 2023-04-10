@@ -18,6 +18,7 @@ export const useSidebar = () => {
   useEffect(() => {
     if (userData) {
       setSelectedProfile(userData.accounts[0]);
+      updateProfile(userData.accounts[0]);
     }
   }, [userData]);
 

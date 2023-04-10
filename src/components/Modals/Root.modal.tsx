@@ -1,6 +1,6 @@
 import { SxProps } from "@mui/system";
 import { useModalStore } from "../../store/useModalStore";
-import AddAccount from "./AddAccount/AddAccount.modal";
+import AddEntry from "./AddEntry/AddEntry.modal";
 
 export const modalStyles: SxProps = {
   position: "absolute",
@@ -12,7 +12,7 @@ export const modalStyles: SxProps = {
 };
 
 const MODAL_COMPONENTS: { [key: string]: Function } = {
-  ADD_ACCOUNT: AddAccount,
+  ADD_ENTRY: AddEntry,
 };
 
 const RootModal = () => {

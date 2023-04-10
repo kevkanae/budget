@@ -1,10 +1,8 @@
 import { SxProps } from "@mui/material/styles";
-import { Colors } from "../../styles/Variables";
 
 const root: SxProps = {
   height: "100%",
   width: "100%",
-  backgroundColor: Colors.light,
   color: "primary.main",
   display: "flex",
   flexDirection: "column",
@@ -21,8 +19,10 @@ const header: SxProps = {
 };
 
 const h3: SxProps = {
-  fontSize: "1.6rem",
+  fontSize: "2.1rem",
   fontWeight: 600,
+  textTransform: "uppercase",
+  letterSpacing: "0.1rem",
 };
 
 const tableWrapper: SxProps = {
@@ -31,7 +31,7 @@ const tableWrapper: SxProps = {
   mt: 2,
 };
 
-export const incomeStyles = {
+export const addStyles = {
   root,
   header,
   h3,

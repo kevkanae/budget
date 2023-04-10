@@ -2,24 +2,51 @@ import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Text from "@mui/material/Typography";
-import { incomeStyles as sx } from "./Income.styles";
+import { addStyles as sx } from "./Add.styles";
 import { invoke } from "@tauri-apps/api";
 import { useCallback, useEffect } from "react";
-import { useProfileStore } from "../../utils/useProfileStore";
 import { useQuery } from "@tanstack/react-query";
+import { useProfileStore } from "../../store/useProfileStore";
+import { useParams } from "react-router-dom";
+import { useModalStore } from "../../store/useModalStore";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "id", headerName: "ID", width: 70, hideable: true },
   {
     field: "date",
     headerName: "Date",
     sortable: false,
     flex: 1,
+    hideable: true,
   },
-  { field: "title", headerName: "Title", sortable: false, flex: 1 },
-  { field: "category", headerName: "Category", sortable: false, flex: 1 },
-  { field: "amount", headerName: "Amount", sortable: true, flex: 1 },
-  { field: "action", headerName: "Action", sortable: false, flex: 1 },
+  {
+    field: "title",
+    headerName: "Title",
+    sortable: false,
+    flex: 1,
+    hideable: false,
+  },
+  {
+    field: "category",
+    headerName: "Category",
+    sortable: false,
+    flex: 1,
+    hideable: false,
+  },
+  {
+    field: "amount",
+    headerName: "Amount",
+    sortable: true,
+    flex: 1,
+    hideable: false,
+  },
+  {
+    field: "action",
+    headerName: "Action",
+    sortable: false,
+    flex: 1,
+    hideable: false,
+  },
 ];
 
 const rows = [
@@ -34,29 +61,25 @@ const rows = [
   { id: 9, title: "Roxie", date: "Harvey", amount: 658 },
 ];
 
-const Income = () => {
+const Add = () => {
   const currentProfile = useProfileStore((state) => state.currentProfile);
+  const setModal = useModalStore((state) => state.setModal);
+  const { type } = useParams();
   console.log(currentProfile);
 
-  const { data: incomeData } = useQuery({
-    queryKey: ["GetIncome"],
-    queryFn: () =>
-      invoke<any>("get_income", {
-        profile: {
-          id: currentProfile!.id,
-          name: currentProfile!.name,
-        },
-      }),
-    onSuccess(data) {
-      console.log(data);
-    },
-  });
+  const handleAdd = () => {
+    setModal("ADD_ENTRY", {
+      show: true,
+      type: type,
+    });
+  };
+
   return (
     <Box sx={sx.root}>
       <Box sx={sx.header}>
-        <Text sx={sx.h3}>Income</Text>
-        <Button variant="outlined" color="secondary">
-          Add Income
+        <Text sx={sx.h3}>{type}</Text>
+        <Button variant="outlined" color="primary" onClick={handleAdd}>
+          Add {type}
         </Button>
       </Box>
 
@@ -73,4 +96,4 @@ const Income = () => {
   );
 };
 
-export default Income;
+export default Add;
