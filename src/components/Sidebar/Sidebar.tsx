@@ -14,7 +14,7 @@ import { useSidebar } from "./useSidebar.hook";
 const Sidebar = () => {
   const {
     navigate,
-    userData,
+    accountData,
     anchor,
     selectedProfile,
     prefersDarkMode,
@@ -41,7 +41,7 @@ const Sidebar = () => {
         </Box>
       ))}
       <Box sx={sx.actions}>
-        {userData && selectedProfile && (
+        {accountData && selectedProfile && (
           <FormControl sx={{ width: "100%" }} size="small">
             <InputLabel id="Account-Select">Account</InputLabel>
             <Select
@@ -53,7 +53,7 @@ const Sidebar = () => {
               fullWidth
               onChange={handleProfileChange}
             >
-              {userData.accounts.map((profile) => (
+              {accountData.map((profile) => (
                 <MenuItem key={profile.id} value={profile.id}>
                   {profile.accountName}
                 </MenuItem>

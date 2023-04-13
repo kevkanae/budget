@@ -1,27 +1,31 @@
-import { DB, Debt, Expense, Income, Investment } from "../utils/Database.type";
+import { DB, Detail } from "../utils/Database.type";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { logger } from "../utils/Logger";
+import { Account } from "../utils/Database.type";
 
 export interface DatabaseStore {
-  userData: DB | null;
+  accountData: Account[];
+  accountDetails: Detail[];
   initialUpdate: (value: DB) => void;
-  updateIncome: (value: Income) => void;
-  updateExpense: (value: Expense) => void;
-  updateDebt: (value: Debt) => void;
-  updateInvestment: (value: Investment) => void;
+  updateEntry: (value: Detail[]) => void;
 }
 
 export const useDatabaseStore = create<DatabaseStore>()(
   logger(
     persist(
       (set, get) => ({
-        userData: get() ? get().userData : null,
-        initialUpdate: (value) => set(() => ({ userData: value })),
-        updateIncome: () => set(() => ({})),
-        updateExpense: () => set(() => ({})),
-        updateDebt: () => set(() => ({})),
-        updateInvestment: () => set(() => ({})),
+        accountData: get() ? get().accountData : [],
+        accountDetails: get() ? get().accountDetails : [],
+        initialUpdate: (value) =>
+          set(() => ({
+            accountData: value.accounts,
+            accountDetails: value.details,
+          })),
+        updateEntry: (value) =>
+          set(() => ({
+            accountDetails: value,
+          })),
       }),
       {
         name: "Okane-DB",

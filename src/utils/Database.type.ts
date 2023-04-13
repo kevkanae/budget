@@ -12,23 +12,23 @@ export interface Account {
 export interface Detail {
   id: number;
   accountName: string;
-  createdAt: number;
-  updatedAt: null | number;
+  createdAt: string;
+  updatedAt: null | string;
   months: Month[];
 }
 
 export interface Month {
-  month: string;
+  monthID: number; // 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   income: BaseEntry[];
   expense: BaseEntry[];
   debt: BaseEntry[];
   investment: BaseEntry[];
 }
 
-interface BaseEntry {
-  createdAt: number;
-  updatedAt: null | number;
+export interface BaseEntry {
+  createdAt: string;
+  updatedAt: null | string;
   title: string;
   comments: null | string;
-  amount: string;
+  amount: number;
 }

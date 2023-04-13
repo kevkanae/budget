@@ -8,27 +8,28 @@ import { Account } from "../../utils/Database.type";
 
 export const useSidebar = () => {
   const navigate = useNavigate();
-  const { userData } = useDatabaseStore((state) => state);
+  const { accountData } = useDatabaseStore((state) => state);
   const { updateProfile } = useProfileStore((state) => state);
   const { prefersDarkMode, setMode } = useThemeStore((state) => state);
 
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
-  const [selectedProfile, setSelectedProfile] = useState<Account>();
+  const [selectedProfile, setSelectedProfile] = useState<Account>(
+    accountData[0]
+  );
 
   useEffect(() => {
-    if (userData) {
-      setSelectedProfile(userData.accounts[0]);
-      updateProfile(userData.accounts[0]);
+    if (accountData) {
+      updateProfile(accountData[0]);
     }
-  }, [userData]);
+  }, [accountData]);
 
   const handleSettingsClose = () => setAnchor(null);
   const handleSettingsOpen = (event: React.MouseEvent<HTMLButtonElement>) =>
     setAnchor(event.currentTarget);
 
   const handleProfileChange = (e: SelectChangeEvent) => {
-    if (userData) {
-      const currentProfile = userData.accounts.find(
+    if (accountData) {
+      const currentProfile = accountData.find(
         ({ id }) => id === Number(e.target.value)
       );
       updateProfile(currentProfile!);
@@ -40,7 +41,7 @@ export const useSidebar = () => {
 
   return {
     navigate,
-    userData,
+    accountData,
     anchor,
     selectedProfile,
     prefersDarkMode,
