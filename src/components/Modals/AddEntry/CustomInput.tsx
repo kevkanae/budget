@@ -22,7 +22,7 @@ const CustomInput = ({
   <Controller
     name={name}
     control={control}
-    rules={{ required: required }}
+    rules={{ required: required, min: 0 }}
     render={({ field: { onChange, value }, fieldState: { error } }) => (
       <TextField
         placeholder={placeholder}

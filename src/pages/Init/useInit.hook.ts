@@ -85,11 +85,11 @@ export const useInit = () => {
       details: accounts.map((acc) => ({
         id: acc.id,
         accountName: acc.accountName,
-        createdAt: Date.now(),
-        updatedAt: null,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
         months: [
           {
-            month: "apr",
+            monthID: new Date().getMonth() + 1,
             income: [],
             expense: [],
             debt: [],

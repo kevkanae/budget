@@ -7,7 +7,7 @@ import Divider from "@mui/material/Divider";
 import { AddCircle, RemoveCircle } from "@mui/icons-material";
 import { IconButton, Button } from "@mui/material";
 import Loader from "../../components/Loader/Loader";
-import { useInit } from "./useInit.hooks";
+import { useInit } from "./useInit.hook";
 
 const Init = () => {
   const {

@@ -1,19 +1,15 @@
 import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import Paper from "@mui/material/Paper";
-import InputBase from "@mui/material/InputBase";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import { addEntryStyles as sx } from "./AddEntry.styles";
 import { modalStyles } from "../Root.modal";
-import { AddCircle, Close } from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import { Close } from "@mui/icons-material";
 import Button from "@mui/material/Button";
-import { useModalStore } from "../../../store/useModalStore";
-import { useForm, Controller } from "react-hook-form";
-import { MenuItem, Select, TextField } from "@mui/material";
+import { Controller } from "react-hook-form";
+import { MenuItem, Select } from "@mui/material";
 import CustomInput from "./CustomInput";
+import useAddEntry from "./AddEntry.hook";
 
 const months = [
   { id: 1, abbr: "Jan", name: "January" },
@@ -43,19 +39,7 @@ type Props = {
 };
 
 const AddEntryModal = ({ show, type }: Props) => {
-  const { control, setValue } = useForm<FormType>();
-  const hideModal = useModalStore((state) => state.hideModal);
-
-  useEffect(() => {
-    const currentMonth = new Date().getMonth() + 1;
-    setValue("month", currentMonth);
-  }, []);
-
-  const handleSave = async () => {
-    // await writeTextFile("index.json", JSON.stringify(accounts), {
-    //   dir: BaseDirectory.AppLocalData,
-    // }).then(() => navigate("/home"));
-  };
+  const { control, handleSubmit, hideModal, handleSave } = useAddEntry(type);
 
   return (
     <Modal open={show} onClose={() => hideModal()}>
@@ -68,14 +52,14 @@ const AddEntryModal = ({ show, type }: Props) => {
         }}
       >
         <Box sx={sx.top}>
-          <Text sx={sx.header}>Add Accounts</Text>
+          <Text sx={sx.header}>Add {type}</Text>
           <IconButton onClick={() => hideModal()}>
             <Close />
           </IconButton>
         </Box>
 
         <Box sx={sx.content}>
-          <form style={sx.form}>
+          <form style={sx.form} onSubmit={handleSubmit(handleSave)}>
             <CustomInput
               name="title"
               control={control}
@@ -123,10 +107,12 @@ const AddEntryModal = ({ show, type }: Props) => {
                 )}
               />
             </Box>
+            <Box width={"100%"}>
+              <Button type="submit" variant="contained" sx={{ float: "right" }}>
+                Save
+              </Button>
+            </Box>
           </form>
-          <Box>
-            <Button onClick={handleSave}>Save</Button>
-          </Box>
         </Box>
       </Box>
     </Modal>

@@ -21,6 +21,7 @@ const header: SxProps = {
   fontSize: "1.4rem",
   fontWeight: 600,
   color: "secondary.main",
+  textTransform: "capitalize",
 };
 
 const content: SxProps = {
