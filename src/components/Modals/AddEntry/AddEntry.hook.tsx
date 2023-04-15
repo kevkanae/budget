@@ -6,6 +6,9 @@ import { useProfileStore } from "../../../store/useProfileStore";
 import { BaseEntry, DB } from "../../../utils/Database.type";
 import { BaseDirectory, writeTextFile } from "@tauri-apps/api/fs";
 import { notify } from "../../../utils/Notify";
+import dayjs from "dayjs";
+import { v4 as uuidv4 } from "uuid";
+import { Rows } from "../../../pages/Add/Add";
 
 export type FormType = {
   title: string;
@@ -14,31 +17,42 @@ export type FormType = {
   month: number;
 };
 
-type Props = "income" | "expense" | "debt" | "investment";
+type Type = "income" | "expense" | "debt" | "investment";
 
-const useAddEntry = (type: Props) => {
+const useAddEntry = (
+  type: Type,
+  editObj: Rows | null,
+  hideModal: () => void
+) => {
+  const database = useDatabaseStore((state) => state);
+  const currentProfile = useProfileStore((state) => state.currentProfile);
+
   const { control, setValue, handleSubmit } = useForm<FormType>({
     defaultValues: {
       title: "",
       comment: "",
       amount: 0,
-      month: new Date().getMonth() + 1,
+      month: dayjs().month() + 1,
     },
   });
 
-  const hideModal = useModalStore((state) => state.hideModal);
-  const database = useDatabaseStore((state) => state);
-  const currentProfile = useProfileStore((state) => state.currentProfile);
-
   useEffect(() => {
-    const currentMonth = new Date().getMonth() + 1;
-    setValue("month", currentMonth);
-  }, []);
+    if (editObj) {
+      setValue("title", editObj.title);
+      setValue("comment", editObj.comments ?? "");
+      setValue("amount", editObj.amount);
+      setValue("month", editObj.month);
+    } else {
+      const currentMonth = dayjs().month() + 1;
+      setValue("month", currentMonth);
+    }
+  }, [type, editObj]);
 
   const handleSave: SubmitHandler<FormType> = async (data) => {
     const entry: BaseEntry = {
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      id: editObj ? editObj.id : uuidv4(),
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
       title: data.title,
       comments: data.comment ? data.comment : null,
       amount: data.amount,
@@ -46,12 +60,20 @@ const useAddEntry = (type: Props) => {
 
     if (database.accountData && currentProfile) {
       const details = database.accountDetails;
+
       details.forEach((detail) => {
         if (detail.id === currentProfile.id) {
           let months = detail.months;
           months.forEach((curr) => {
             if (curr.monthID === data.month) {
-              curr[type].push(entry);
+              if (editObj) {
+                const index = curr[type].findIndex(
+                  (item) => item.id === editObj.id
+                );
+                curr[type][index] = entry;
+              } else {
+                curr[type].push(entry);
+              }
             }
           });
         }
@@ -68,7 +90,9 @@ const useAddEntry = (type: Props) => {
         await writeTextFile("index.json", JSON.stringify(newData), {
           dir: BaseDirectory.Download,
         })
-          .then(() => notify("success", `Successfully Added`))
+          .then(() =>
+            notify("success", `Successfully ${editObj ? "edited" : "added"}`)
+          )
           .finally(() => hideModal());
       } catch (error) {
         console.log(error);

@@ -3,15 +3,15 @@ import Text from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import IconButton from "@mui/material/IconButton";
 import { addEntryStyles as sx } from "./AddEntry.styles";
-import { modalStyles } from "../Root.modal";
 import { Close } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import { Controller } from "react-hook-form";
 import { MenuItem, Select } from "@mui/material";
 import CustomInput from "./CustomInput";
 import useAddEntry from "./AddEntry.hook";
+import { Param, Rows } from "../../../pages/Add/Add";
 
-const months = [
+export const MONTHS = [
   { id: 1, abbr: "Jan", name: "January" },
   { id: 2, abbr: "Feb", name: "February" },
   { id: 3, abbr: "Mar", name: "March" },
@@ -35,17 +35,29 @@ export type FormType = {
 
 type Props = {
   show: boolean;
-  type: "income" | "expense" | "debt" | "investment";
+  hideModal: () => void;
+  type: Param;
+  selectedRow: Rows | null;
 };
 
-const AddEntryModal = ({ show, type }: Props) => {
-  const { control, handleSubmit, hideModal, handleSave } = useAddEntry(type);
+const AddEntryModal = ({ show, hideModal, type, selectedRow }: Props) => {
+  const { control, handleSubmit, handleSave } = useAddEntry(
+    type,
+    selectedRow,
+    hideModal
+  );
 
   return (
-    <Modal open={show} onClose={() => hideModal()}>
+    <Modal open={show} onClose={hideModal}>
       <Box
         sx={{
-          ...modalStyles,
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          bgcolor: "background.paper",
+          borderRadius: "0.2rem",
+
           px: 4,
           py: 2,
           width: "49%",
@@ -53,7 +65,7 @@ const AddEntryModal = ({ show, type }: Props) => {
       >
         <Box sx={sx.top}>
           <Text sx={sx.header}>Add {type}</Text>
-          <IconButton onClick={() => hideModal()}>
+          <IconButton onClick={hideModal}>
             <Close />
           </IconButton>
         </Box>
@@ -98,7 +110,7 @@ const AddEntryModal = ({ show, type }: Props) => {
                     displayEmpty
                     sx={{ width: "48%" }}
                   >
-                    {months.map((month) => (
+                    {MONTHS.map((month) => (
                       <MenuItem key={month.id} value={month.id}>
                         {month.name}
                       </MenuItem>

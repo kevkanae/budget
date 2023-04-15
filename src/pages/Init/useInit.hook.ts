@@ -10,6 +10,8 @@ import { gradientColorArray } from "../../utils/GradientColorData";
 import { notify } from "../../utils/Notify";
 import { Account, DB } from "../../utils/Database.type";
 import { useDatabaseStore } from "../../store/useDatabaseStore";
+import dayjs from "dayjs";
+import { v4 as uuidv4 } from "uuid";
 
 export const useInit = () => {
   const navigate = useNavigate();
@@ -61,7 +63,7 @@ export const useInit = () => {
         ? setAccounts((prev) => [
             ...prev,
             {
-              id: prev.length + 1,
+              id: uuidv4(),
               accountName: accName,
               cardColor: randomColor,
             },
@@ -85,11 +87,11 @@ export const useInit = () => {
       details: accounts.map((acc) => ({
         id: acc.id,
         accountName: acc.accountName,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: dayjs().toISOString(),
+        updatedAt: dayjs().toISOString(),
         months: [
           {
-            monthID: new Date().getMonth() + 1,
+            monthID: dayjs().month() + 1,
             income: [],
             expense: [],
             debt: [],

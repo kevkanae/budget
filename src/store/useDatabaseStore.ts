@@ -5,6 +5,7 @@ import { logger } from "../utils/Logger";
 import { Account } from "../utils/Database.type";
 
 export interface DatabaseStore {
+  userData: DB;
   accountData: Account[];
   accountDetails: Detail[];
   initialUpdate: (value: DB) => void;
@@ -15,6 +16,7 @@ export const useDatabaseStore = create<DatabaseStore>()(
   logger(
     persist(
       (set, get) => ({
+        userData: get() ? get().userData : { accounts: [], details: [] },
         accountData: get() ? get().accountData : [],
         accountDetails: get() ? get().accountDetails : [],
         initialUpdate: (value) =>

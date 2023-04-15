@@ -4,16 +4,16 @@ export interface DB {
 }
 
 export interface Account {
-  id: number;
+  id: string;
   accountName: string;
   cardColor: string;
 }
 
 export interface Detail {
-  id: number;
+  id: string;
   accountName: string;
   createdAt: string;
-  updatedAt: null | string;
+  updatedAt: string;
   months: Month[];
 }
 
@@ -26,8 +26,9 @@ export interface Month {
 }
 
 export interface BaseEntry {
+  id: string;
   createdAt: string;
-  updatedAt: null | string;
+  updatedAt: string;
   title: string;
   comments: null | string;
   amount: number;
