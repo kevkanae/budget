@@ -25,6 +25,12 @@ dependencies:
   '@tauri-apps/api':
     specifier: ^1.2.0
     version: 1.2.0
+  dayjs:
+    specifier: ^1.11.7
+    version: 1.11.7
+  immer:
+    specifier: ^9.0.21
+    version: 9.0.21
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -46,9 +52,12 @@ dependencies:
   sass:
     specifier: ^1.60.0
     version: 1.60.0
+  uuid:
+    specifier: ^9.0.0
+    version: 9.0.0
   zustand:
     specifier: ^4.3.7
-    version: 4.3.7(react@18.2.0)
+    version: 4.3.7(immer@9.0.21)(react@18.2.0)
 
 devDependencies:
   '@tauri-apps/cli':
@@ -63,6 +72,9 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18.0.6
     version: 18.0.11
+  '@types/uuid':
+    specifier: ^9.0.1
+    version: 9.0.1
   '@vitejs/plugin-react-swc':
     specifier: ^3.2.0
     version: 3.2.0(vite@4.2.1)
@@ -912,6 +924,10 @@ packages:
   /@types/scheduler@0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
 
+  /@types/uuid@9.0.1:
+    resolution: {integrity: sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==}
+    dev: true
+
   /@vitejs/plugin-react-swc@3.2.0(vite@4.2.1):
     resolution: {integrity: sha512-IcBoXL/mcH7JdQr/nfDlDwTdIaH8Rg7LpfQDF4nAht+juHWIuv6WhpKPCSfY4+zztAaB07qdBoFz1XCZsgo3pQ==}
     peerDependencies:
@@ -1015,6 +1031,10 @@ packages:
   /csstype@3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
 
+  /dayjs@1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
+    dev: false
+
   /dom-helpers@5.2.1:
     resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
     dependencies:
@@ -1109,6 +1129,10 @@ packages:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
     dependencies:
       react-is: 16.13.1
+    dev: false
+
+  /immer@9.0.21:
+    resolution: {integrity: sha512-bc4NBHqOqSfRW7POMkHd51LvClaeMXpm8dx0e8oE2GORbq5aRK7Bxl4FyzVLdGtLmvLKL7BTDBG5ACQm4HWjTA==}
     dev: false
 
   /immutable@4.2.4:
@@ -1424,6 +1448,11 @@ packages:
       react: 18.2.0
     dev: false
 
+  /uuid@9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
+    dev: false
+
   /vite@4.2.1(@types/node@18.15.11)(sass@1.60.0):
     resolution: {integrity: sha512-7MKhqdy0ISo4wnvwtqZkjke6XN4taqQ2TBaTccLIpOKv7Vp2h4Y+NpmWCnGDeSvvn45KxvWgGyb0MkHvY1vgbg==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -1464,7 +1493,7 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /zustand@4.3.7(react@18.2.0):
+  /zustand@4.3.7(immer@9.0.21)(react@18.2.0):
     resolution: {integrity: sha512-dY8ERwB9Nd21ellgkBZFhudER8KVlelZm8388B5nDAXhO/+FZDhYMuRnqDgu5SYyRgz/iaf8RKnbUs/cHfOGlQ==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
@@ -1476,6 +1505,7 @@ packages:
       react:
         optional: true
     dependencies:
+      immer: 9.0.21
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
