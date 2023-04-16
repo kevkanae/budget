@@ -103,6 +103,9 @@ const noData: SxProps = {
   display: "grid",
   placeItems: "center",
   textTransform: "capitalize",
+  "&:hover": {
+    cursor: "pointer",
+  },
 };
 
 export const addStyles = {

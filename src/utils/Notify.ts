@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const config: ToastOptions = {
   position: "top-right",
-  autoClose: 4000,
+  autoClose: 1000,
   hideProgressBar: false,
   closeOnClick: true,
   rtl: false,

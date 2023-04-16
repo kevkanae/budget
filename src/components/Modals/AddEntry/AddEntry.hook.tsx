@@ -14,6 +14,13 @@ export type FormType = {
   month: number;
 };
 
+const defaultValues: FormType = {
+  title: "",
+  comment: "",
+  amount: 0,
+  month: dayjs().month() + 1,
+};
+
 type Type = "income" | "expense" | "debt" | "investment";
 
 const useAddEntry = (
@@ -24,13 +31,8 @@ const useAddEntry = (
   const { updateEntry } = useCentralStore((state) => state);
   const { profile } = useProfileStore((state) => state);
 
-  const { control, setValue, handleSubmit } = useForm<FormType>({
-    defaultValues: {
-      title: "",
-      comment: "",
-      amount: 0,
-      month: dayjs().month() + 1,
-    },
+  const { control, setValue, handleSubmit, reset } = useForm<FormType>({
+    defaultValues,
   });
 
   useEffect(() => {
@@ -61,6 +63,7 @@ const useAddEntry = (
       updateEntry(entry, profile.id, editObj ? "edit" : "add");
       notify("success", `Successfully ${editObj ? "edited" : "added"}`);
       hideModal();
+      reset();
     }
   };
 

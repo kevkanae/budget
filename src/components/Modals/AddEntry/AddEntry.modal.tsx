@@ -9,8 +9,8 @@ import { Controller } from "react-hook-form";
 import { MenuItem, Select } from "@mui/material";
 import CustomInput from "./CustomInput";
 import useAddEntry from "./AddEntry.hook";
-import { Param } from "../../../pages/Add/Add";
 import { Entry } from "../../../utils/Database.type";
+import { Param } from "../../../pages/Add/Add.hook";
 
 export const MONTHS = [
   { id: 1, abbr: "Jan", name: "January" },
@@ -26,13 +26,6 @@ export const MONTHS = [
   { id: 11, abbr: "Nov", name: "November" },
   { id: 12, abbr: "Dec", name: "December" },
 ];
-
-export type FormType = {
-  title: string;
-  comment: string;
-  amount: number;
-  month: number;
-};
 
 type Props = {
   show: boolean;
