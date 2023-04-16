@@ -9,7 +9,8 @@ import { Controller } from "react-hook-form";
 import { MenuItem, Select } from "@mui/material";
 import CustomInput from "./CustomInput";
 import useAddEntry from "./AddEntry.hook";
-import { Param, Rows } from "../../../pages/Add/Add";
+import { Param } from "../../../pages/Add/Add";
+import { Entry } from "../../../utils/Database.type";
 
 export const MONTHS = [
   { id: 1, abbr: "Jan", name: "January" },
@@ -37,7 +38,7 @@ type Props = {
   show: boolean;
   hideModal: () => void;
   type: Param;
-  selectedRow: Rows | null;
+  selectedRow: Entry | null;
 };
 
 const AddEntryModal = ({ show, hideModal, type, selectedRow }: Props) => {

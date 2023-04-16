@@ -6,8 +6,8 @@ import { useCallback, useEffect, useState } from "react";
 import { IconButton, MenuItem, Paper, Select } from "@mui/material";
 import { useProfileStore } from "../../store/useProfileStore";
 import { useParams } from "react-router-dom";
-import { useDatabaseStore } from "../../store/useDatabaseStore";
-import { BaseEntry, DB } from "../../utils/Database.type";
+import { useCentralStore } from "../../store/useDatabaseStore";
+import { Entry } from "../../utils/Database.type";
 import AddEntryModal, {
   MONTHS,
 } from "../../components/Modals/AddEntry/AddEntry.modal";
@@ -16,28 +16,18 @@ import { DeleteForeverOutlined, EditSharp } from "@mui/icons-material";
 import Pagination from "@mui/material/Pagination";
 import { writeTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import { notify } from "../../utils/Notify";
-
-export type Rows = {
-  id: string;
-  date: string;
-  title: string;
-  comments: string | null;
-  amount: number;
-  month: number;
-};
+import produce from "immer";
 
 export type Param = "income" | "expense" | "debt" | "investment";
 
 const Add = () => {
   const { type } = useParams<{ type: Param }>();
-  const { currentProfile } = useProfileStore((state) => state);
-  const { accountDetails, updateEntry, accountData } = useDatabaseStore(
-    (state) => state
-  );
+  const { profile } = useProfileStore((state) => state);
+  const { db, updateEntry } = useCentralStore((state) => state);
 
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [selectedRow, setSelectedRow] = useState<Rows | null>(null);
-  const [rows, setRows] = useState<Rows[]>([]);
+  const [selectedRow, setSelectedRow] = useState<Entry | null>(null);
+  const [rows, setRows] = useState<Entry[]>([]);
   const [monthValue, setMonthValue] = useState<number>(dayjs().month() + 1);
   const [page, setPage] = useState(1);
 
@@ -45,80 +35,50 @@ const Add = () => {
     setPage(value);
   };
 
-  const getRows = (raw: BaseEntry[]): Rows[] =>
-    raw.map((entry) => ({
-      id: entry.id,
-      date: dayjs(entry.updatedAt).format("MMMM DD, YYYY [at] hh:mm A"),
-      title: entry.title,
-      comments: entry.comments,
-      amount: entry.amount,
-      month: dayjs(entry.updatedAt).month() + 1,
-    }));
-
-  const fetchRows = useCallback(() => {
-    if (accountDetails && currentProfile && type) {
-      const accountID = currentProfile.id;
-      const currentAccount = accountDetails.filter(
-        ({ id }) => id === accountID
+  const fetchRows = useCallback(async () => {
+    if (profile) {
+      setRows(
+        produce(db.userData, (draft) => {
+          draft
+            .filter((acc) => acc.id === profile.id)[0]
+            .data.filter(
+              (item) => item.month === monthValue && item.type === type
+            )[0];
+        })[0].data
       );
-      const currentMonth = currentAccount
-        .map(({ months }) =>
-          months.filter(({ monthID }) => monthID === monthValue)
-        )
-        .flat();
-
-      if (currentMonth.length > 0) {
-        setRows(getRows(currentMonth[0][type as Param]));
-      }
     }
-  }, [accountDetails, currentProfile, monthValue, type]);
+  }, [db.userData, profile, monthValue, type]);
+
+  const writeToStorage = useCallback(async () => {
+    try {
+      await writeTextFile("index.json", JSON.stringify(db), {
+        dir: BaseDirectory.Download,
+      });
+    } catch (error) {
+      console.log(error);
+      notify("error", "Something went wrong");
+    }
+  }, []);
 
   useEffect(() => {
     fetchRows();
-  }, [monthValue, fetchRows]);
+    writeToStorage();
+  }, [monthValue, fetchRows, writeToStorage]);
 
   const handleAdd = () => {
     setShowModal(true);
   };
 
-  const handleEdit = (rows: Rows) => {
-    setSelectedRow(rows);
+  const handleEdit = (row: Entry) => {
+    setSelectedRow(row);
     setShowModal(true);
   };
 
-  const handleRemove = async ({ id }: Rows) => {
-    console.log(id);
-    if (currentProfile && accountDetails) {
-      let details = accountDetails;
-      details.forEach((acc) => {
-        if (acc.id === currentProfile.id) {
-          acc.months.forEach((month) => {
-            if (month.monthID === monthValue) {
-              month[type as Param] = month[type as Param].filter(
-                (entry) => entry.id !== id
-              );
-            }
-          });
-        }
-      });
-
-      // Update Store
-      updateEntry(details);
-      const newData: DB = {
-        accounts: accountData,
-        details: details,
-      };
-
-      try {
-        await writeTextFile("index.json", JSON.stringify(newData), {
-          dir: BaseDirectory.Download,
-        })
-          .then(() => notify("success", `Successfully Deleted`))
-          .finally(() => fetchRows());
-      } catch (error) {
-        console.log(error);
-        notify("error", "Something went wrong");
-      }
+  const handleRemove = (row: Entry) => {
+    if (profile) {
+      updateEntry(row, profile.id, "delete");
+      setSelectedRow(null);
+      notify("success", "Sucessfully deleted");
     }
   };
 
@@ -149,12 +109,14 @@ const Add = () => {
 
       {rows.length > 0 ? (
         <Box sx={sx.listWrapper}>
-          {rows.map((row) => (
-            <Paper sx={sx.listItem} key={row.id}>
+          {rows.map((row, i) => (
+            <Paper sx={sx.listItem} key={i}>
               <Box sx={sx.left}>
                 <Text sx={sx.title}>{row.title}</Text>
-                <Text sx={sx.comment}>{row.comments}</Text>
-                <Text sx={sx.date}>{row.date}</Text>
+                <Text sx={sx.comment}>{row.desc}</Text>
+                <Text sx={sx.date}>
+                  {dayjs(row.updatedAt).format("MMMM DD, YYYY [at] hh:mm A")}
+                </Text>
               </Box>
 
               <Box sx={sx.mid}>

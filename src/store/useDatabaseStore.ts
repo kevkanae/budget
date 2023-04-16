@@ -1,36 +1,75 @@
-import { DB, Detail } from "../utils/Database.type";
+import { Entry, OkaneDB } from "../utils/Database.type";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { logger } from "../utils/Logger";
-import { Account } from "../utils/Database.type";
+import produce from "immer";
 
-export interface DatabaseStore {
-  userData: DB;
-  accountData: Account[];
-  accountDetails: Detail[];
-  initialUpdate: (value: DB) => void;
-  updateEntry: (value: Detail[]) => void;
+export interface CentralStore {
+  db: OkaneDB;
+  updateUserData: (value: OkaneDB) => void;
+  updateEntry: (
+    entry: Entry,
+    accountId: string,
+    action: "add" | "edit" | "delete"
+  ) => void;
 }
 
-export const useDatabaseStore = create<DatabaseStore>()(
+export const useCentralStore = create<CentralStore>()(
   logger(
     persist(
       (set, get) => ({
-        userData: get() ? get().userData : { accounts: [], details: [] },
-        accountData: get() ? get().accountData : [],
-        accountDetails: get() ? get().accountDetails : [],
-        initialUpdate: (value) =>
+        db: get() ? get().db : { userData: [] },
+        updateUserData: (value) =>
           set(() => ({
-            accountData: value.accounts,
-            accountDetails: value.details,
+            db: value,
           })),
-        updateEntry: (value) =>
-          set(() => ({
-            accountDetails: value,
-          })),
+        updateEntry: (entry, accountId, action) =>
+          set(() => {
+            if (action === "add") {
+              return {
+                db: produce(get().db, (draft) => {
+                  return draft.userData.forEach(
+                    (account) =>
+                      account.id === accountId && account.data.push(entry)
+                  );
+                }),
+              };
+            } else if (action === "edit") {
+              return {
+                db: produce(get().db, ({ userData }) => {
+                  const accIndex = userData.findIndex(
+                    (acc) => acc.id === accountId
+                  );
+
+                  if (accIndex !== -1) {
+                    userData[accIndex].data = userData[accIndex].data.map(
+                      (item) => (item.id === entry.id ? entry : item)
+                    );
+                  }
+                }),
+              };
+            } else if (action === "delete") {
+              return {
+                db: produce(get().db, (draft) => {
+                  return draft.userData.forEach(({ id, data }) => {
+                    if (id === accountId) {
+                      data.forEach((item, index) => {
+                        if (item.id === entry.id) {
+                          data.splice(index, 1);
+                        }
+                      });
+                    }
+                  });
+                }),
+              };
+            } else
+              return {
+                db: get().db,
+              };
+          }),
       }),
       {
-        name: "Okane-DB",
+        name: "OkaneDB",
         storage: createJSONStorage(() => sessionStorage),
       }
     )

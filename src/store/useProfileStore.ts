@@ -1,20 +1,20 @@
 import { create } from "zustand";
-import { Account } from "../utils/Database.type";
+import { AccountData } from "../utils/Database.type";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 export interface ProfileStore {
-  currentProfile: Account | null;
-  updateProfile: (obj: Account) => void;
+  profile: AccountData | null;
+  updateProfile: (obj: AccountData) => void;
 }
 
 export const useProfileStore = create<ProfileStore>()(
   persist(
     (set, get) => ({
-      currentProfile: get() ? get().currentProfile : null,
-      updateProfile: (obj) => set(() => ({ currentProfile: obj })),
+      profile: get() ? get().profile : null,
+      updateProfile: (newProfile) => set(() => ({ profile: newProfile })),
     }),
     {
-      name: "Okane-Selected-Profile",
+      name: "OkaneProfile",
       storage: createJSONStorage(() => sessionStorage),
     }
   )

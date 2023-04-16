@@ -1,35 +1,23 @@
-export interface DB {
-  accounts: Account[];
-  details: Detail[];
+export interface OkaneDB {
+  userData: AccountData[];
 }
 
-export interface Account {
+export interface AccountData {
   id: string;
-  accountName: string;
-  cardColor: string;
-}
-
-export interface Detail {
-  id: string;
-  accountName: string;
+  name: string;
+  gradient: string;
   createdAt: string;
   updatedAt: string;
-  months: Month[];
+  data: Entry[];
 }
 
-export interface Month {
-  monthID: number; // 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-  income: BaseEntry[];
-  expense: BaseEntry[];
-  debt: BaseEntry[];
-  investment: BaseEntry[];
-}
-
-export interface BaseEntry {
+export interface Entry {
   id: string;
+  month: number; // Month ID (1-12)
   createdAt: string;
   updatedAt: string;
+  type: string;
   title: string;
-  comments: null | string;
+  desc: string;
   amount: number;
 }

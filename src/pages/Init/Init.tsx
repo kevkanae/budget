@@ -14,7 +14,7 @@ const Init = () => {
     isLoading,
     accName,
     accounts,
-    handleInputChange,
+    setAccName,
     handleAddAccount,
     handleRemoveAccount,
     handleSave,
@@ -37,7 +37,7 @@ const Init = () => {
               sx={sx.input}
               placeholder="Add Account"
               value={accName}
-              onChange={handleInputChange}
+              onChange={({ target }) => setAccName(target.value)}
             />
             <IconButton
               sx={{ p: "0.7rem" }}
@@ -61,12 +61,12 @@ const Init = () => {
                   marginBottom={i === accounts.length - 1 ? 0 : 2}
                 >
                   <Text marginRight={"auto"} fontWeight={600}>
-                    {acc.accountName}
+                    {acc.name}
                   </Text>
                   <Paper
                     sx={{
                       ...sx.colorCard,
-                      backgroundImage: acc.cardColor,
+                      backgroundImage: acc.gradient,
                     }}
                   />
                   <IconButton

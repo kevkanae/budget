@@ -14,14 +14,13 @@ import { useSidebar } from "./useSidebar.hook";
 const Sidebar = () => {
   const {
     navigate,
-    accountData,
+    db,
     anchor,
     selectedProfile,
     prefersDarkMode,
-    handleSettingsOpen,
-    handleSettingsClose,
+    setAnchor,
+    setMode,
     handleProfileChange,
-    handleThemeToggle,
   } = useSidebar();
 
   return (
@@ -41,21 +40,21 @@ const Sidebar = () => {
         </Box>
       ))}
       <Box sx={sx.actions}>
-        {accountData && selectedProfile && (
+        {db.userData && selectedProfile && (
           <FormControl sx={{ width: "100%" }} size="small">
             <InputLabel id="Account-Select">Account</InputLabel>
             <Select
               labelId="Account-Select"
               id="Account-Select"
               sx={sx.profiles}
-              value={selectedProfile.id.toString()}
+              value={selectedProfile.id}
               label="Account"
               fullWidth
               onChange={handleProfileChange}
             >
-              {accountData.map((profile) => (
+              {db.userData.map((profile) => (
                 <MenuItem key={profile.id} value={profile.id}>
-                  {profile.accountName}
+                  {profile.name}
                 </MenuItem>
               ))}
             </Select>
@@ -64,7 +63,7 @@ const Sidebar = () => {
 
         <IconButton
           aria-label="Settings"
-          onClick={handleSettingsOpen}
+          onClick={({ currentTarget }) => setAnchor(currentTarget)}
           color="secondary"
         >
           <SettingsIcon />
@@ -73,13 +72,13 @@ const Sidebar = () => {
           id="basic-menu"
           anchorEl={anchor}
           open={!!anchor}
-          onClose={handleSettingsClose}
+          onClose={() => setAnchor(null)}
           MenuListProps={{
             "aria-labelledby": "basic-button",
           }}
         >
           <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
-          <MenuItem onClick={handleThemeToggle}>
+          <MenuItem onClick={() => setMode(prefersDarkMode ? "light" : "dark")}>
             {prefersDarkMode ? "Light" : "Dark"}
           </MenuItem>
         </Menu>

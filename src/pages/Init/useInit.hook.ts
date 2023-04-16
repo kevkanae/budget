@@ -8,18 +8,21 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { gradientColorArray } from "../../utils/GradientColorData";
 import { notify } from "../../utils/Notify";
-import { Account, DB } from "../../utils/Database.type";
-import { useDatabaseStore } from "../../store/useDatabaseStore";
+import { AccountData, OkaneDB } from "../../utils/Database.type";
+import { useCentralStore } from "../../store/useDatabaseStore";
 import dayjs from "dayjs";
 import { v4 as uuidv4 } from "uuid";
+import produce from "immer";
+import { useProfileStore } from "../../store/useProfileStore";
 
 export const useInit = () => {
   const navigate = useNavigate();
-  const initialUpdate = useDatabaseStore((state) => state.initialUpdate);
+  const { updateUserData } = useCentralStore((state) => state);
+  const { updateProfile } = useProfileStore((state) => state);
 
   const [isLoading, setLoading] = useState<boolean>(true);
   const [accName, setAccName] = useState<string>("");
-  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [accounts, setAccounts] = useState<AccountData[]>([]);
   const [colors, setColors] = useState<string[]>(gradientColorArray);
 
   const checkUser = useCallback(async () => {
@@ -33,15 +36,14 @@ export const useInit = () => {
             await readTextFile("index.json", {
               dir: BaseDirectory.Download,
             }).then((data) => {
-              const parsedData: DB = JSON.parse(data);
-              initialUpdate(parsedData);
+              const parsedData: OkaneDB = JSON.parse(data);
+              updateUserData(parsedData);
               navigate("/home");
             });
           }
         })
         .finally(() => setLoading(false));
     } catch (error) {
-      console.log(error);
       notify("error", "Something went wrong");
     }
   }, []);
@@ -50,67 +52,75 @@ export const useInit = () => {
     checkUser();
   }, [checkUser]);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAccName(event.target.value);
-  };
-
   const handleAddAccount = () => {
     if (accName) {
-      const colorIndex = Math.floor(Math.random() * colors.length);
-      const randomColor = colors.splice(colorIndex, 1)[0];
+      if (accounts.length > 5) {
+        notify("info", "You can only add 5 accounts");
+        return;
+      } else {
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
-      accounts.length < 5
-        ? setAccounts((prev) => [
-            ...prev,
-            {
+        // Remove the color from the array
+        setColors(
+          produce(colors, (draft) => {
+            return draft.filter((color) => color !== randomColor);
+          })
+        );
+
+        // Add new account
+        setAccounts(
+          produce(accounts, (draft) => {
+            draft.push({
               id: uuidv4(),
-              accountName: accName,
-              cardColor: randomColor,
-            },
-          ])
-        : notify("info", "You can only add 5 accounts");
+              name: accName,
+              gradient: randomColor,
+              createdAt: dayjs().toISOString(),
+              updatedAt: dayjs().toISOString(),
+              data: [],
+            });
+          })
+        );
 
-      setAccName("");
+        // Reset the input field
+        setAccName("");
+      }
     }
   };
 
-  const handleRemoveAccount = (currentAcc: Account) => {
-    setColors((prev) => [...prev, currentAcc.cardColor]);
+  const handleRemoveAccount = (currentAcc: AccountData) => {
+    // Add the color back to the array
+    setColors(
+      produce(colors, (draft) => {
+        draft.push(currentAcc.gradient);
+      })
+    );
 
-    const newAccounts = accounts.filter((acc) => acc.id !== currentAcc.id);
-    setAccounts(newAccounts);
+    // Remove the account
+    setAccounts(
+      produce(accounts, (draft) => {
+        return draft.filter((acc) => acc.id !== currentAcc.id);
+      })
+    );
   };
 
   const handleSave = async () => {
-    const initialData: DB = {
-      accounts: accounts,
-      details: accounts.map((acc) => ({
-        id: acc.id,
-        accountName: acc.accountName,
-        createdAt: dayjs().toISOString(),
-        updatedAt: dayjs().toISOString(),
-        months: [
-          {
-            monthID: dayjs().month() + 1,
-            income: [],
-            expense: [],
-            debt: [],
-            investment: [],
-          },
-        ],
-      })),
+    const okaneDB: OkaneDB = {
+      userData: accounts,
     };
 
+    // Save the data to the file
     try {
       setLoading(true);
-      await writeTextFile("index.json", JSON.stringify(initialData), {
+      await writeTextFile("index.json", JSON.stringify(okaneDB), {
         dir: BaseDirectory.Download,
       })
-        .then(() => initialUpdate(initialData))
+        .then(() => {
+          updateUserData(okaneDB);
+          updateProfile(okaneDB.userData[0]);
+        })
         .then(() => setLoading(false))
         .finally(() => navigate("/home"));
     } catch (error) {
-      console.log(error);
       notify("error", "Something went wrong");
     }
   };
@@ -119,7 +129,7 @@ export const useInit = () => {
     isLoading,
     accName,
     accounts,
-    handleInputChange,
+    setAccName,
     handleAddAccount,
     handleRemoveAccount,
     handleSave,
