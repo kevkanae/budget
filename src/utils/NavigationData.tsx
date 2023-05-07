@@ -1,42 +1,38 @@
-import { FaMoneyBillWaveAlt as Note } from "react-icons/fa";
-import {
-  BsCreditCard2Front as CreditCard,
-  BsFillBarChartLineFill as Investment,
-} from "react-icons/bs";
-import {
-  AiOutlineHome as Dashboard,
-  AiOutlinePieChart as Debts,
-} from "react-icons/ai";
+import Note from "@mui/icons-material/AttachMoney";
+import CreditCard from "@mui/icons-material/CreditCard";
+import Debts from "@mui/icons-material/PieChart";
+import Investment from "@mui/icons-material/Savings";
+import Dashboard from "@mui/icons-material/GridView";
 
 export const navigationData = [
   {
     id: 1,
     name: "Dashboard",
     link: "/",
-    icon: <Dashboard color="#FFF" size={21} />,
+    icon: <Dashboard />,
   },
   {
     id: 2,
     name: "Income",
     link: "income",
-    icon: <Note color="#FFF" size={21} />,
+    icon: <Note />,
   },
   {
     id: 3,
     name: "Expense",
     link: "expense",
-    icon: <CreditCard color="#FFF" size={21} />,
+    icon: <CreditCard />,
   },
   {
     id: 4,
     name: "Debt",
     link: "debt",
-    icon: <Debts color="#FFF" size={21} />,
+    icon: <Debts />,
   },
   {
     id: 5,
     name: "Investment",
     link: "investment",
-    icon: <Investment color="#FFF" size={21} />,
+    icon: <Investment />,
   },
 ];
