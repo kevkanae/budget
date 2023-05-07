@@ -18,9 +18,13 @@ export const useSidebar = () => {
   );
 
   const handleProfileChange = (e: SelectChangeEvent) => {
-    const currentProfile = db.userData.find(({ id }) => id === e.target.value);
-    updateProfile(currentProfile!);
-    setSelectedProfile(currentProfile!);
+    const currentProfileIndex = db.userData.findIndex(
+      ({ id }) => id === e.target.value
+    );
+    if (currentProfileIndex !== -1) {
+      updateProfile(db.userData[currentProfileIndex], currentProfileIndex);
+      setSelectedProfile(db.userData[currentProfileIndex]);
+    }
   };
 
   return {

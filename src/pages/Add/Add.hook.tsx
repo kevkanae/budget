@@ -6,8 +6,7 @@ import { Entry } from "../../utils/Database.type";
 import dayjs from "dayjs";
 import { writeTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import { notify } from "../../utils/Notify";
-
-export type Param = "income" | "expense" | "debt" | "investment";
+import { Param } from "../../utils/UserData.type";
 
 const useAdd = () => {
   const { type } = useParams<{ type: Param }>();
@@ -30,11 +29,11 @@ const useAdd = () => {
         db.userData
           .filter((acc) => acc.id === profile.id)[0]
           .data.filter(
-            (item) => item.month === monthValue && item.type === "income"
+            (item) => item.month === monthValue && item.type === type
           )
       );
     }
-  }, [db.userData, profile, monthValue, type]);
+  }, [db.userData, profile, monthValue, type, showModal]);
 
   const writeToStorage = useCallback(async () => {
     try {
@@ -45,12 +44,12 @@ const useAdd = () => {
       console.log(error);
       notify("error", "Something went wrong");
     }
-  }, []);
+  }, [showModal]);
 
   useEffect(() => {
     fetchRows();
     writeToStorage();
-  }, [monthValue, fetchRows, writeToStorage]);
+  }, [monthValue, fetchRows, writeToStorage, showModal]);
 
   const handleAdd = () => {
     setShowModal(true);

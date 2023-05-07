@@ -12,7 +12,7 @@ const root: SxProps = {
 const h3: SxProps = {
   fontSize: "1.6rem",
   fontWeight: 600,
-  color: "secondary.main",
+  color: "text.primary",
 };
 
 const summary: SxProps = {
@@ -37,10 +37,15 @@ const card: SxProps = {
   width: "30vw",
   p: "0.7rem",
   borderRadius: "0.2rem",
-  boxShadow: 2,
+  border: "1px solid",
+  borderColor: "divider",
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
+
+  "&:hover": {
+    boxShadow: 1,
+  },
 };
 
 const cardHeader: SxProps = {
@@ -57,14 +62,14 @@ const cardFooter: SxProps = {
   display: "flex",
   alignItems: "center",
   gap: "0.7rem",
+
+  "&:hover": {
+    cursor: "pointer",
+  },
 };
 
 const cardLink: SxProps = {
-  // color: Colors.grey,
-  "&:hover": {
-    // color: Colors.secondary,
-    cursor: "pointer",
-  },
+  fontSize: "1.05rem",
 };
 
 const graph: SxProps = {};

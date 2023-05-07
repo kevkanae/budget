@@ -6,6 +6,7 @@ import { Entry } from "../../../utils/Database.type";
 import dayjs from "dayjs";
 import { notify } from "../../../utils/Notify";
 import { v4 as uuidv4 } from "uuid";
+import { useAmountStore } from "../../../store/useAmountStore";
 
 export type FormType = {
   title: string;
@@ -29,6 +30,7 @@ const useAddEntry = (
   hideModal: () => void
 ) => {
   const { updateEntry } = useCentralStore((state) => state);
+  const { updateAmount } = useAmountStore((state) => state);
   const { profile } = useProfileStore((state) => state);
 
   const { control, setValue, handleSubmit, reset } = useForm<FormType>({
@@ -59,6 +61,14 @@ const useAddEntry = (
         createdAt: editObj ? editObj.createdAt : dayjs().toISOString(),
         type: type,
       };
+
+      if (editObj) {
+        updateAmount(
+          data.amount,
+          type,
+          editObj.amount > data.amount ? "-" : "+"
+        );
+      }
 
       updateEntry(entry, profile.id, editObj ? "edit" : "add");
       notify("success", `Successfully ${editObj ? "edited" : "added"}`);

@@ -2,7 +2,7 @@ import { Entry, OkaneDB } from "../utils/Database.type";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { logger } from "../utils/Logger";
-import produce from "immer";
+import { produce } from "immer";
 
 export interface CentralStore {
   db: OkaneDB;

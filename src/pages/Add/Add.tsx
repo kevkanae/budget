@@ -101,7 +101,7 @@ const Add = () => {
           setShowModal(false);
           fetchRows();
         }}
-        type={type}
+        type={type!}
         selectedRow={selectedRow}
       />
     </Box>

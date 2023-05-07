@@ -1,3 +1,5 @@
+export type Param = "income" | "expense" | "debt" | "investment";
+
 export type BaseType = {
   id: string;
   createdAt: string;
@@ -40,7 +42,7 @@ export type AlternateDB = {
         id: number; // Month (1-12)
         createdAt: string;
         updatedAt: string;
-        type: "income" | "expense" | "debt" | "investment";
+        type: Param;
         title: string;
         desc: string;
         amount: number;

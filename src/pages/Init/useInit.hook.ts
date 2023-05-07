@@ -12,7 +12,7 @@ import { AccountData, OkaneDB } from "../../utils/Database.type";
 import { useCentralStore } from "../../store/useDatabaseStore";
 import dayjs from "dayjs";
 import { v4 as uuidv4 } from "uuid";
-import produce from "immer";
+import { produce } from "immer";
 import { useProfileStore } from "../../store/useProfileStore";
 
 export const useInit = () => {
@@ -116,7 +116,7 @@ export const useInit = () => {
       })
         .then(() => {
           updateUserData(okaneDB);
-          updateProfile(okaneDB.userData[0]);
+          updateProfile(okaneDB.userData[0], 0);
         })
         .then(() => setLoading(false))
         .finally(() => navigate("/home"));
