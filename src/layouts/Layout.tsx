@@ -7,19 +7,28 @@ const Layout = () => {
   const root: SxProps = {
     height: "100vh",
     width: "100%",
-    display: "grid",
-    gridTemplateColumns: {
-      xs: "0 100vw",
-      md: "14vw 86vw",
-    },
+    display: "flex",
 
     bgcolor: "background.default",
   };
 
+  const sidebarWrapper: SxProps = {
+    width: { xs: "0vw", md: "14vw" },
+    display: { xs: "none", md: "block" },
+  };
+
+  const outletWrapper: SxProps = {
+    width: { xs: "100vw", md: "86vw" },
+  };
+
   return (
     <Box sx={root}>
-      <Sidebar />
-      <Outlet />
+      <Box sx={sidebarWrapper}>
+        <Sidebar />
+      </Box>
+      <Box sx={outletWrapper}>
+        <Outlet />
+      </Box>
     </Box>
   );
 };
