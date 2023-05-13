@@ -20,7 +20,7 @@ const summary: SxProps = {
 };
 
 const cardWrapper: SxProps = {
-  height: "21vh",
+  minHeight: "21vh",
   width: "100%",
   py: "0.7rem",
   my: "0.5rem",
