@@ -5,7 +5,8 @@ import { createJSONStorage, persist } from "zustand/middleware";
 export interface ProfileStore {
   profile: AccountData | null;
   accountIndex: number;
-  updateProfile: (obj: AccountData, idx: number) => void;
+  isNewUser: boolean;
+  updateProfile: (obj: AccountData, idx: number, isNew?: boolean) => void;
 }
 
 export const useProfileStore = create<ProfileStore>()(
@@ -13,8 +14,9 @@ export const useProfileStore = create<ProfileStore>()(
     (set, get) => ({
       profile: get() ? get().profile : null,
       accountIndex: get() ? get().accountIndex : 0,
-      updateProfile: (obj, idx) =>
-        set(() => ({ profile: obj, accountIndex: idx })),
+      isNewUser: get() ? get().isNewUser : false,
+      updateProfile: (obj, idx, isNewUser = false) =>
+        set(() => ({ profile: obj, accountIndex: idx, isNewUser })),
     }),
     {
       name: "OkaneProfile",

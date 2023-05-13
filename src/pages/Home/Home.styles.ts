@@ -22,7 +22,7 @@ const summary: SxProps = {
 };
 
 const cardWrapper: SxProps = {
-  height: "28vh",
+  height: "21vh",
   width: "100%",
   py: "0.7rem",
   my: "0.5rem",
@@ -52,6 +52,7 @@ const cardHeader: SxProps = {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
+  mb: 1,
 };
 
 const cardOverview: SxProps = {
@@ -75,6 +76,10 @@ const cardLink: SxProps = {
 const graph: SxProps = {
   flex: 1,
   width: "100%",
+  p: 1,
+  border: "1px solid",
+  borderColor: "divider",
+  borderRadius: "0.2rem",
 };
 
 const green: SxProps = {

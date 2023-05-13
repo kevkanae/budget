@@ -116,7 +116,7 @@ export const useInit = () => {
       })
         .then(() => {
           updateUserData(okaneDB);
-          updateProfile(okaneDB.userData[0], 0);
+          updateProfile(okaneDB.userData[0], 0, true);
         })
         .then(() => setLoading(false))
         .finally(() => navigate("/home"));
