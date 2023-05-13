@@ -8,15 +8,13 @@ import { useProfileStore } from "../../store/useProfileStore";
 import { useCallback, useEffect, useState } from "react";
 import { useAmountStore } from "../../store/useAmountStore";
 import { Param } from "../../utils/UserData.type";
+import { CardDataType } from "../../utils/CardData";
 
-type Card = {
-  id: number;
-  name: string;
-  link: Param;
-  icon: JSX.Element;
+type CardProps = {
+  data: CardDataType;
 };
 
-const Card = ({ data }: { data: Card }) => {
+const Card = ({ data }: CardProps) => {
   const navigate = useNavigate();
   const { db } = useCentralStore((state) => state);
   const { accountIndex } = useProfileStore((state) => state);

@@ -68,6 +68,8 @@ const useAddEntry = (
           type,
           editObj.amount > data.amount ? "-" : "+"
         );
+      } else {
+        updateAmount(data.amount, type, "+");
       }
 
       updateEntry(entry, profile.id, editObj ? "edit" : "add");

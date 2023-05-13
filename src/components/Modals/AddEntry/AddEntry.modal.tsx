@@ -10,7 +10,7 @@ import { MenuItem, Select } from "@mui/material";
 import CustomInput from "./CustomInput";
 import useAddEntry from "./AddEntry.hook";
 import { Entry } from "../../../utils/Database.type";
-import { Param } from "../../../pages/Add/Add.hook";
+import { Param } from "../../../utils/UserData.type";
 
 export const MONTHS = [
   { id: 1, abbr: "Jan", name: "January" },

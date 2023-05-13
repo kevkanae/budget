@@ -2,8 +2,16 @@ import Note from "@mui/icons-material/AttachMoney";
 import CreditCard from "@mui/icons-material/CreditCard";
 import Debts from "@mui/icons-material/PieChart";
 import Investment from "@mui/icons-material/Savings";
+import { Param } from "./UserData.type";
 
-export const cardData = [
+export type CardDataType = {
+  id: number;
+  name: string;
+  link: Param;
+  icon: JSX.Element;
+};
+
+export const cardData: CardDataType[] = [
   {
     id: 1,
     name: "Incomes",

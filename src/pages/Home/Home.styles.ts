@@ -72,7 +72,10 @@ const cardLink: SxProps = {
   fontSize: "1.05rem",
 };
 
-const graph: SxProps = {};
+const graph: SxProps = {
+  flex: 1,
+  width: "100%",
+};
 
 const green: SxProps = {
   color: "#1f961f",

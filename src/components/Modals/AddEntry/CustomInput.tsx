@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField";
 import { Controller } from "react-hook-form";
-import { FormType } from "./AddEntry.modal";
+import { FormType } from "./AddEntry.hook";
 
 interface Props {
   name: keyof FormType;
@@ -29,6 +29,7 @@ const CustomInput = ({
         type={type}
         onChange={onChange}
         value={value}
+        InputProps={{ inputProps: { min: "0", max: "10", step: "1" } }}
         fullWidth={fullWidth}
         sx={{
           width: fullWidth ? "100%" : "48%",
