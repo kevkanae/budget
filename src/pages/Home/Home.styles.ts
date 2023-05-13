@@ -3,7 +3,6 @@ import { SxProps } from "@mui/material/styles";
 const root: SxProps = {
   height: "100%",
   width: "100%",
-  // backgroundColor: Colors.light,
   display: "flex",
   flexDirection: "column",
   p: "1.4rem",
@@ -18,7 +17,6 @@ const h3: SxProps = {
 const summary: SxProps = {
   my: "1rem",
   fontSize: "0.75rem",
-  // color: Colors.grey,
 };
 
 const cardWrapper: SxProps = {
