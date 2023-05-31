@@ -9,8 +9,8 @@ const root: SxProps = {
 const left: SxProps = {
   height: "100%",
   width: "50%",
-  borderRight: "1px solid #ffffff1f",
-
+  borderRight: "1px solid",
+  borderRightColor: "divider",
   display: {
     xs: "none",
     md: "flex",
